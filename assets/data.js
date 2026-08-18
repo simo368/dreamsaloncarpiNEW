@@ -19,10 +19,10 @@ const ID_SPREADSHEET = '1JAmaDtiJBgNiRg_lbOTWDidXUcoJEmAXgzhEwzFeOK4'; // es: '1
 
 const GID = {
   Settings: 0,  // Sostituisci con il GID del tab "Settings"
-  Hours: 1,     // Sostituisci con il GID del tab "Hours"
-  Services: 2,  // Sostituisci con il GID del tab "Services"
-  Team: 3,      // Sostituisci con il GID del tab "Team"
-  Reviews: 4,   // Sostituisci con il GID del tab "Reviews"
+  Hours: 369855458,     // Sostituisci con il GID del tab "Hours"
+  Services: 1888300907,  // Sostituisci con il GID del tab "Services"
+  Team: 308563470,      // Sostituisci con il GID del tab "Team"
+  Reviews: 1420541429,   // Sostituisci con il GID del tab "Reviews"
 };
 
 // ----------------------------------------------------------------------
