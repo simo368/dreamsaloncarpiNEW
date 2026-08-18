@@ -15,7 +15,7 @@
 // ----------------------------------------------------------------------
 // CONFIG — sostituisci questi valori prima del deploy
 // ----------------------------------------------------------------------
-const ID_SPREADSHEET = 'INSERISCI_QUI_LO_SPREADSHEET_ID'; // es: '1aBcD2EfGhIjKlMnOpQrStUvWxYz123456'
+const ID_SPREADSHEET = '1JAmaDtiJBgNiRg_lbOTWDidXUcoJEmAXgzhEwzFeOK4'; // es: '1aBcD2EfGhIjKlMnOpQrStUvWxYz123456'
 
 const GID = {
   Settings: 0,  // Sostituisci con il GID del tab "Settings"
