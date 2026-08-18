@@ -196,20 +196,19 @@ async function loadData() {
   const results = await Promise.all(tabs.map(tab => fetchTab(tab)));
   const [settingsRaw, hours, services, team, reviews] = results;
 
-  // Settings: converti key/value rows in oggetto
-  let settings = FALLBACK.settings;
+  // Settings: converti key/value o righe in oggetto in modo ultra-flessibile
+  let settings = { ...FALLBACK.settings };
   if (settingsRaw && settingsRaw.length > 0) {
-    const headers = Object.keys(settingsRaw[0]);
-    const keyIdx = headers.findIndex(h => h.toLowerCase() === 'key');
-    const valIdx = headers.findIndex(h => h.toLowerCase() === 'value');
-    if (keyIdx >= 0 && valIdx >= 0) {
-      settings = { ...FALLBACK.settings };
-      settingsRaw.forEach(row => {
-        const k = row[headers[keyIdx]];
-        const v = row[headers[valIdx]];
-        if (k) settings[k] = v;
-      });
-    }
+    settingsRaw.forEach(row => {
+      const vals = Object.values(row).map(v => (v || '').trim());
+      if (vals.length >= 2) {
+        const k = vals[0].toLowerCase();
+        const v = vals[1];
+        if (k && FALLBACK.settings.hasOwnProperty(k) && v && !v.startsWith('(')) {
+          settings[k] = v;
+        }
+      }
+    });
   }
 
   // Services: separa servizi da pacchetti tramite is_package
