@@ -18,7 +18,7 @@
 const ID_SPREADSHEET = '1JAmaDtiJBgNiRg_lbOTWDidXUcoJEmAXgzhEwzFeOK4'; // es: '1aBcD2EfGhIjKlMnOpQrStUvWxYz123456'
 
 const GID = {
-  Settings: 0,  // Sostituisci con il GID del tab "Settings"
+  Settings: 1586047803,  // Sostituisci con il GID del tab "Settings"
   Hours: 369855458,     // Sostituisci con il GID del tab "Hours"
   Services: 1888300907,  // Sostituisci con il GID del tab "Services"
   Team: 308563470,      // Sostituisci con il GID del tab "Team"
