@@ -145,6 +145,17 @@ function updateAllPhones(data) {
   setPhone(document.getElementById('finalCta'), settings.phone);
 }
 
+function updateAllEmails(data) {
+  const settings = data.settings;
+  if (!settings || !settings.email) return;
+  document.querySelectorAll('a[href^="mailto:"]').forEach(a => {
+    a.href = `mailto:${settings.email}`;
+    if (a.textContent.includes('@')) {
+      a.textContent = settings.email;
+    }
+  });
+}
+
 function renderTreatwellFresha(data) {
   const settings = data.settings;
   if (!settings) return;
@@ -299,6 +310,7 @@ async function init() {
         }
 
         updateAllPhones(data);
+        updateAllEmails(data);
         renderTreatwellFresha(data);
         renderSocialLinks(data);
       }
