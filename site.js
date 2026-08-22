@@ -353,6 +353,8 @@ async function init() {
           renderFeaturedServices(data);
           renderBreakdown(data);
           renderGallery(data);
+        } else if (page === 'salone.html') {
+          renderGallery(data);
         } else if (page === 'servizi.html') {
           renderServices(data);
           renderPackages(data);
