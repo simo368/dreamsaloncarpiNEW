@@ -291,8 +291,17 @@ function initUI() {
   // Nav scroll
   const nav = document.getElementById('siteNav');
   if (nav) {
+    // Le pagine interne (senza hero scuro) devono avere sempre il nav visibile
+    const isInnerPage = page !== 'index.html' && page !== '';
+    if (isInnerPage) {
+      nav.classList.add('scrolled');
+    }
     window.addEventListener('scroll', () => {
-      nav.classList.toggle('scrolled', window.scrollY > 60);
+      if (isInnerPage) {
+        nav.classList.add('scrolled'); // mantieni sempre visibile sulle pagine interne
+      } else {
+        nav.classList.toggle('scrolled', window.scrollY > 60);
+      }
     }, { passive: true });
   }
 
