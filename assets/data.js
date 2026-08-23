@@ -217,7 +217,7 @@ async function loadData() {
 
   // Services: separa servizi da pacchetti tramite is_package
   const allServices = services || FALLBACK.services;
-  const isPkg = s => String(s.is_package || '').toLowerCase() === 'true';
+  const isPkg = s => ['true', 'vero'].includes(String(s.is_package || '').toLowerCase().trim());
   const servicesList = allServices.filter(s => !isPkg(s));
   const packagesList = allServices.filter(s => isPkg(s));
 

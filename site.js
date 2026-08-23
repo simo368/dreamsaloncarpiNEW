@@ -131,7 +131,7 @@ function renderServicesList(containerId, list, limit) {
 }
 
 function isServicePackage(s) {
-  return String(s.is_package || '').toLowerCase() === 'true';
+  return ['true', 'vero'].includes(String(s.is_package || '').toLowerCase().trim());
 }
 
 function renderFeaturedServices(data) {
