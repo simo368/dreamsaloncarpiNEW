@@ -124,6 +124,7 @@ const FALLBACK = {
     hero_sub: "Dream Salon è il salone dove Cristina Guanci, con vent'anni di esperienza, costruisce un'immagine su misura: morfologia del viso, colore dell'incarnato, stile personale — prima ancora del taglio.",
     rating_score: "4,9",
     rating_count: "37",
+    piva: "",
   },
   // TODO: aggiornare con gli orari definitivi dopo il meeting col cliente
   hours: [

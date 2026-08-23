@@ -365,6 +365,23 @@ function renderSocialLinks(data) {
   }
 }
 
+function renderPiva(data) {
+  const settings = data.settings;
+  if (!settings || !settings.piva || !settings.piva.trim()) return;
+
+  const pivaText = ` — P.IVA ${settings.piva.trim()}`;
+
+  const footerPiva = document.getElementById('footerPiva');
+  if (footerPiva) {
+    footerPiva.textContent = pivaText;
+  }
+
+  const privacyPiva = document.getElementById('privacyPiva');
+  if (privacyPiva) {
+    privacyPiva.innerHTML = `P.IVA: ${settings.piva.trim()}<br>`;
+  }
+}
+
 // ---------------- UI INTERACTIONS ----------------
 function initUI() {
   const page = window.location.pathname.split('/').pop() || 'index.html';
@@ -474,6 +491,7 @@ async function init() {
         updateAllEmails(data);
         renderTreatwellFresha(data);
         renderSocialLinks(data);
+        renderPiva(data);
       }
     }
   } catch (e) {
