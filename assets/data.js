@@ -81,11 +81,11 @@ function parseCSV(text) {
 
 function csvToObjects(rows) {
   if (rows.length < 2) return [];
-  const headers = rows[0].map(h => h.trim());
+  const headers = rows[0].map(h => h.trim().toLowerCase());
   return rows.slice(1).filter(r => r.some(c => c.trim())).map(row => {
     const obj = {};
     headers.forEach((h, i) => {
-      obj[h] = (row[i] || '').trim();
+      if (h) obj[h] = (row[i] || '').trim();
     });
     return obj;
   });
@@ -217,8 +217,9 @@ async function loadData() {
 
   // Services: separa servizi da pacchetti tramite is_package
   const allServices = services || FALLBACK.services;
-  const servicesList = allServices.filter(s => s.is_package !== 'true');
-  const packagesList = allServices.filter(s => s.is_package === 'true');
+  const isPkg = s => String(s.is_package || '').toLowerCase() === 'true';
+  const servicesList = allServices.filter(s => !isPkg(s));
+  const packagesList = allServices.filter(s => isPkg(s));
 
   store = {
     settings: settings,

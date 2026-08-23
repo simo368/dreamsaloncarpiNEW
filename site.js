@@ -109,41 +109,58 @@ function renderServicesList(containerId, list, limit) {
   const grid = document.getElementById(containerId);
   if (!grid || !list) return;
   const items = limit ? list.slice(0, limit) : list;
-  grid.innerHTML = items.map(s => `
+  grid.innerHTML = items.map(s => {
+    const name = (s.name && s.name !== 'undefined') ? s.name : '';
+    const description = (s.description && s.description !== 'undefined') ? s.description : '';
+    const duration = (s.duration && s.duration !== 'undefined') ? s.duration : '';
+    const price = (s.price && s.price !== 'undefined') ? s.price : '';
+    if (!name) return '';
+    return `
     <div class="service-card">
       <div>
         <div class="s-top">
-          <h3>${s.name}</h3>
-          ${s.duration ? `<span class="dur">${s.duration}</span>` : ''}
+          <h3>${name}</h3>
+          ${duration ? `<span class="dur">${duration}</span>` : ''}
         </div>
-        <p>${s.description}</p>
+        <p>${description}</p>
       </div>
-      ${s.price && s.price.trim() ? `<span class="price-value">${s.price}</span>` : '<span class="price-note">Prezzo su richiesta</span>'}
+      ${price && price.trim() ? `<span class="price-value">${price}</span>` : '<span class="price-note">Prezzo su richiesta</span>'}
     </div>
-  `).join('');
+  `;
+  }).filter(Boolean).join('');
+}
+
+function isServicePackage(s) {
+  return String(s.is_package || '').toLowerCase() === 'true';
 }
 
 function renderFeaturedServices(data) {
-  if (data.services) renderServicesList('featuredGrid', data.services.filter(s => s.is_package !== 'true'), 3);
+  if (data.services) renderServicesList('featuredGrid', data.services.filter(s => !isServicePackage(s)), 3);
 }
 
 function renderServices(data) {
-  if (data.services) renderServicesList('servicesGrid', data.services.filter(s => s.is_package !== 'true'));
+  if (data.services) renderServicesList('servicesGrid', data.services.filter(s => !isServicePackage(s)));
 }
 
 function renderPackages(data) {
   const pkgs = document.getElementById('packagesGrid');
   if (!pkgs || !data.services) return;
-  const list = data.services.filter(s => s.is_package === 'true');
+  const list = data.services.filter(s => isServicePackage(s));
   if (!list.length) return;
-  pkgs.innerHTML = list.map(p => `
+  pkgs.innerHTML = list.map(p => {
+    const name = (p.name && p.name !== 'undefined') ? p.name : '';
+    const description = (p.description && p.description !== 'undefined') ? p.description : '';
+    const duration = (p.duration && p.duration !== 'undefined') ? p.duration : '';
+    const price = (p.price && p.price !== 'undefined') ? p.price : '';
+    return `
     <div class="package-card">
       <p class="eyebrow light">Pacchetto</p>
-      <h3 style="color:var(--paper); font-size:20px; font-weight:500;">${p.name}</h3>
-      <p>${p.description}</p>
-      <span class="dur">${p.duration || ''}${p.duration && p.price ? ' · ' : ''}${p.price && p.price.trim() ? p.price : 'prezzo su richiesta'}</span>
+      <h3 style="color:var(--paper); font-size:20px; font-weight:500;">${name}</h3>
+      <p>${description}</p>
+      <span class="dur">${duration}${duration && price ? ' · ' : ''}${price && price.trim() ? price : 'prezzo su richiesta'}</span>
     </div>
-  `).join('');
+  `;
+  }).join('');
 }
 
 function renderTeam(data) {
