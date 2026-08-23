@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /404.html
+
+# TODO: sostituire il dominio con quello definitivo dopo il meeting col cliente
+Sitemap: https://www.dreamsaloncarpi.it/sitemap.xml

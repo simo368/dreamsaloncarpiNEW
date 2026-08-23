@@ -125,13 +125,14 @@ const FALLBACK = {
     rating_score: "4,9",
     rating_count: "37",
   },
+  // TODO: aggiornare con gli orari definitivi dopo il meeting col cliente
   hours: [
     { day: "Lunedì", text: "Chiuso", closed: true, confirm: false },
-    { day: "Martedì", text: "09:00–16:00 / 09:00–17:00 / 09:00–19:00", confirm: true },
+    { day: "Martedì", text: "09:00–17:00", confirm: false },
     { day: "Mercoledì", text: "09:00–16:00", confirm: false },
-    { day: "Giovedì", text: "09:00–20:00 / 09:00–19:00", confirm: true },
+    { day: "Giovedì", text: "09:00–19:00", confirm: false },
     { day: "Venerdì", text: "09:00–17:00", confirm: false },
-    { day: "Sabato", text: "07:00–15:00 / 08:00–15:00", confirm: true },
+    { day: "Sabato", text: "08:00–15:00", confirm: false },
     { day: "Domenica", text: "Chiuso", closed: true, confirm: false },
   ],
   services: [
@@ -148,10 +149,9 @@ const FALLBACK = {
     { name: "Percorso Effetto Moda", description: "Taglio donna + effetto moda + colore + piega capelli media lunghezza.", duration: "2 h 45 min", price: "", category: "", is_package: "true" },
     { name: "Percorso Luce & Colore", description: "Taglio donna + piega media lunghezza + gloss/tonalizzanti + colpi di luce.", duration: "2 h 45 min", price: "", category: "", is_package: "true" },
   ],
+  // TODO: aggiungere gli altri membri del team dopo conferma col cliente
   team: [
     { name: "Cristina Guanci", role: "Titolare", bio: "Esperienza ventennale nel settore. Guida la consulenza d'immagine e il taglio sartoriale.", confirmed: "true", photo_url: "" },
-    { name: "Bianca Diana", role: "Ruolo da confermare", bio: "Nome associato al salone nelle recensioni delle clienti.", confirmed: "false", photo_url: "" },
-    { name: "Monia", role: "Ruolo da confermare", bio: "Nome associato al salone nelle recensioni delle clienti.", confirmed: "false", photo_url: "" },
   ],
   reviews: [
     { label: "Colore / Colpi di sole", score: "5,0" },
@@ -230,7 +230,7 @@ async function loadData() {
     photos: photos || [],
   };
 
-  console.log('[data] Dati caricati:', store);
+  // console.log rimosso per produzione
   return store;
 }
 

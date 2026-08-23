@@ -14,6 +14,69 @@ function setPhone(el, phone) {
   el.innerHTML = `${PHONE_SVG} ${phone}`;
 }
 
+// ---------------- COOKIE CONSENT ----------------
+
+function loadConsentedResources() {
+  // Mostra la mappa Google Maps se presente
+  const mapConsent = document.getElementById('mapConsent');
+  const map = document.getElementById('contactMap');
+  if (mapConsent) mapConsent.style.display = 'none';
+  if (map && map.dataset.src) {
+    map.src = map.dataset.src;
+    map.style.display = '';
+  }
+}
+
+function acceptCookies() {
+  localStorage.setItem('cookie_consent', 'accepted');
+  const banner = document.getElementById('cookieBanner');
+  if (banner) {
+    banner.style.opacity = '0';
+    banner.style.transition = 'opacity .3s ease';
+    setTimeout(() => banner.remove(), 300);
+  }
+  loadConsentedResources();
+}
+
+function rejectCookies() {
+  localStorage.setItem('cookie_consent', 'rejected');
+  const banner = document.getElementById('cookieBanner');
+  if (banner) {
+    banner.style.opacity = '0';
+    banner.style.transition = 'opacity .3s ease';
+    setTimeout(() => banner.remove(), 300);
+  }
+}
+
+// Esponi globalmente per chiamate inline da HTML (es. pulsante "Carica mappa" in contatti.html)
+window.acceptCookies = acceptCookies;
+window.rejectCookies = rejectCookies;
+
+function injectCookieBanner() {
+  const consent = localStorage.getItem('cookie_consent');
+  if (consent === 'accepted') {
+    loadConsentedResources();
+    return;
+  }
+  if (consent === 'rejected') return;
+
+  const banner = document.createElement('div');
+  banner.id = 'cookieBanner';
+  banner.className = 'cookie-banner';
+  banner.setAttribute('role', 'dialog');
+  banner.setAttribute('aria-label', 'Consenso cookie');
+  banner.innerHTML = `
+    <div class="cookie-inner">
+      <p>Utilizziamo <strong>Google Maps</strong> per mostrare la nostra sede — questo può impostare cookie di terze parti. Leggi la <a href="privacy.html">Privacy &amp; Cookie Policy</a>.</p>
+      <div class="cookie-btns">
+        <button class="btn btn-dark" onclick="rejectCookies()">Rifiuta</button>
+        <button class="btn btn-primary" onclick="acceptCookies()">Accetta</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(banner);
+}
+
 // ---------------- PROGRESSIVE ENHANCEMENT ----------------
 // Aggiorna l'HTML statico se ci sono nuovi dati da Google Sheets
 
@@ -72,6 +135,7 @@ function renderPackages(data) {
   const pkgs = document.getElementById('packagesGrid');
   if (!pkgs || !data.services) return;
   const list = data.services.filter(s => s.is_package === 'true');
+  if (!list.length) return;
   pkgs.innerHTML = list.map(p => `
     <div class="package-card">
       <p class="eyebrow light">Pacchetto</p>
@@ -85,15 +149,17 @@ function renderPackages(data) {
 function renderTeam(data) {
   const grid = document.getElementById('teamGrid');
   if (!grid || !data.team) return;
-  grid.innerHTML = data.team.map(t => `
+  // Mostra solo i membri confermati (confirmed === 'true')
+  const confirmed = data.team.filter(t => t.confirmed === 'true');
+  const list = confirmed.length ? confirmed : data.team;
+  grid.innerHTML = list.map(t => `
     <div class="team-card reveal in">
-      ${t.photo_url 
-        ? `<div class="avatar"><img src="${t.photo_url}" alt="${t.name}" loading="lazy" decoding="async" /></div>` 
+      ${t.photo_url
+        ? `<div class="avatar"><img src="${t.photo_url}" alt="Foto di ${t.name}" loading="lazy" decoding="async" /></div>`
         : `<div class="avatar"><span>${t.name.charAt(0)}</span></div>`}
       <h3>${t.name}</h3>
       <span class="role">${t.role}</span>
       <p class="bio">${t.bio}</p>
-      ${t.confirmed !== 'true' ? '<span class="tbc">— da confermare</span>' : ''}
     </div>
   `).join('');
 }
@@ -110,20 +176,8 @@ function renderBreakdown(data) {
 }
 
 function renderGallery(data) {
-  // Popola la gallery con le foto dal tab Photos del foglio Google
-  // Struttura colonne foglio: slot | url | alt | tag
-  // slot accetta: reception, facciata, postazioni, team, dettagli
   if (!data.photos || data.photos.length === 0) return;
 
-  const SLOT_MAP = {
-    reception:  { selector: '.g-item.tall',                   isFirst: true },
-    facciata:   { selector: '.g-item:not(.tall):nth-child(2)', isFirst: false },
-    postazioni: { selector: '.g-item:not(.tall):nth-child(3)', isFirst: false },
-    team:       { selector: '.g-item:not(.tall):nth-child(4)', isFirst: false },
-    dettagli:   { selector: '.g-item:not(.tall):nth-child(5)', isFirst: false },
-  };
-
-  // Ordina: reception + facciata come "tall" + normali
   const slots = ['reception', 'facciata', 'postazioni', 'team', 'dettagli'];
   const galleryGrid = document.querySelector('.gallery-grid');
   if (!galleryGrid) return;
@@ -147,7 +201,7 @@ function renderGallery(data) {
 
     item.classList.remove('g-placeholder');
     item.innerHTML = `
-      <img src="${photo.url}" loading="lazy" decoding="async" alt="${alt}">
+      <img src="${photo.url}" loading="lazy" decoding="async" alt="${alt}" width="800" height="600">
       <span class="g-tag">${tag}</span>
     `;
   });
@@ -159,7 +213,7 @@ function renderHours(data) {
   table.innerHTML = data.hours.map(h => `
     <tr>
       <td>${h.day}</td>
-      <td class="${h.closed === 'true' || h.closed === true ? 'closed' : ''}">${h.text}${h.confirm === 'true' ? '<span class="flag">DA CONFERMARE</span>' : ''}</td>
+      <td class="${h.closed === 'true' || h.closed === true ? 'closed' : ''}">${h.text}</td>
     </tr>
   `).join('');
 }
@@ -174,8 +228,17 @@ function renderContact(data) {
     address.textContent = settings.address;
     address.href = `https://www.google.com/maps?q=${encodeURIComponent(settings.address)}`;
   }
+
   if (map) {
-    map.src = `https://www.google.com/maps?q=${encodeURIComponent(settings.address || '')}&output=embed`;
+    // Aggiorna l'URL della mappa con l'indirizzo reale; il caricamento è controllato dal cookie consent
+    const mapSrc = `https://www.google.com/maps?q=${encodeURIComponent(settings.address || '')}&output=embed`;
+    map.dataset.src = mapSrc;
+    if (localStorage.getItem('cookie_consent') === 'accepted') {
+      map.src = mapSrc;
+      map.style.display = '';
+      const mc = document.getElementById('mapConsent');
+      if (mc) mc.style.display = 'none';
+    }
   }
 }
 
@@ -218,10 +281,13 @@ function renderTreatwellFresha(data) {
       : 'Fonte: Treatwell — profilo Dream Salon Carpi';
   }
 
+  // Fresha: ora usa tag <a> semantico invece di <span>
   const freshaLink = document.getElementById('freshaLink');
   if (freshaLink) {
     if (settings.fresha_url && settings.fresha_url.trim()) {
-      freshaLink.dataset.href = settings.fresha_url;
+      freshaLink.href = settings.fresha_url;
+      freshaLink.target = '_blank';
+      freshaLink.rel = 'noopener';
       freshaLink.style.display = '';
     } else {
       freshaLink.style.display = 'none';
@@ -244,6 +310,8 @@ function renderSocialLinks(data) {
       a.rel = 'noopener';
       a.textContent = 'Facebook';
       fb.replaceWith(a);
+    } else {
+      fb.style.display = 'none';
     }
   }
 
@@ -258,10 +326,13 @@ function renderSocialLinks(data) {
       a.rel = 'noopener';
       a.textContent = 'Instagram';
       ig.replaceWith(a);
+    } else {
+      ig.style.display = 'none';
     }
   }
 
   const wa = document.getElementById('contactWhatsApp');
+  const waItem = document.getElementById('whatsappItem');
   if (wa) {
     if (settings.whatsapp && settings.whatsapp.trim()) {
       const a = document.createElement('a');
@@ -270,8 +341,9 @@ function renderSocialLinks(data) {
       a.id = 'contactWhatsApp';
       a.target = '_blank';
       a.rel = 'noopener';
-      a.textContent = 'WhatsApp';
+      a.textContent = `WhatsApp: ${settings.whatsapp}`;
       wa.replaceWith(a);
+      if (waItem) waItem.style.display = '';
     }
   }
 }
@@ -291,32 +363,45 @@ function initUI() {
   // Nav scroll
   const nav = document.getElementById('siteNav');
   if (nav) {
-    // Le pagine interne (senza hero scuro) devono avere sempre il nav visibile
     const isInnerPage = page !== 'index.html' && page !== '';
     if (isInnerPage) {
       nav.classList.add('scrolled');
     }
     window.addEventListener('scroll', () => {
       if (isInnerPage) {
-        nav.classList.add('scrolled'); // mantieni sempre visibile sulle pagine interne
+        nav.classList.add('scrolled');
       } else {
         nav.classList.toggle('scrolled', window.scrollY > 60);
       }
     }, { passive: true });
   }
 
-  // Nav toggle
+  // Nav toggle con overlay per mobile
   const navToggle = document.getElementById('navToggle');
   const navLinks = document.getElementById('navLinks');
   if (navToggle && navLinks) {
+    // Crea overlay backdrop
+    const overlay = document.createElement('div');
+    overlay.className = 'nav-overlay';
+    overlay.id = 'navOverlay';
+    document.body.appendChild(overlay);
+
+    function closeMenu() {
+      navLinks.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+      overlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
     navToggle.addEventListener('click', () => {
       const open = navLinks.classList.toggle('open');
-      navToggle.setAttribute('aria-expanded', open);
+      navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      overlay.classList.toggle('active', open);
+      document.body.style.overflow = open ? 'hidden' : '';
     });
-    navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-      navLinks.classList.remove('open');
-      navToggle.setAttribute('aria-expanded', false);
-    }));
+
+    overlay.addEventListener('click', closeMenu);
+    navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
   }
 
   // Reveal on scroll
@@ -327,7 +412,7 @@ function initUI() {
   } else {
     const io = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        if (entry.isIntersecting){
+        if (entry.isIntersecting) {
           entry.target.classList.add('in');
           io.unobserve(entry.target);
         }
@@ -335,6 +420,9 @@ function initUI() {
     }, { threshold: 0.12 });
     revealEls.forEach(el => io.observe(el));
   }
+
+  // Cookie consent banner
+  injectCookieBanner();
 }
 
 // ---------------- INIT ----------------
@@ -372,7 +460,7 @@ async function init() {
       }
     }
   } catch (e) {
-    console.warn('[site] Progressive enhancement error:', e);
+    // Silent fail — il sito funziona comunque con i dati statici
   }
 }
 

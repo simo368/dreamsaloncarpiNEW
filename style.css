@@ -1,4 +1,4 @@
-﻿:root{
+:root{
     --forest:#1F2E23;
     --forest-2:#263D2C;
     --anthracite:#17181B;
@@ -443,3 +443,94 @@
     font-weight: 500;
   }
 
+  /* ---------- LEDE COLOR FIX su sfondi scuri ---------- */
+  .section-dark .lede,
+  .section-anthracite .lede {
+    color: rgba(244,240,230,0.72);
+  }
+
+  /* ---------- NAV OVERLAY (mobile) ---------- */
+  .nav-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(23,24,27,0.6);
+    z-index: 99;
+    cursor: pointer;
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+    animation: fadeIn .25s ease;
+  }
+  .nav-overlay.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  /* ---------- COOKIE BANNER ---------- */
+  .cookie-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 300;
+    background: var(--anthracite);
+    border-top: 1px solid var(--line-light);
+    padding: 16px 0;
+    box-shadow: 0 -4px 24px rgba(0,0,0,0.25);
+  }
+  .cookie-inner {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 0 28px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .cookie-inner p {
+    font-size: 13px;
+    color: rgba(244,240,230,0.82);
+    flex: 1;
+    min-width: 200px;
+    line-height: 1.55;
+  }
+  .cookie-inner a {
+    color: var(--brass-light);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .cookie-btns { display: flex; gap: 10px; flex-shrink: 0; }
+  .cookie-btns .btn { padding: 10px 22px; font-size: 13px; }
+
+  /* ---------- MAP CONSENT PLACEHOLDER ---------- */
+  .map-consent {
+    background: var(--forest);
+    border: 1px solid var(--line-light);
+    padding: 40px 24px;
+    text-align: center;
+    height: 340px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+  }
+  .map-consent p {
+    color: rgba(244,240,230,0.7);
+    font-size: 14px;
+    max-width: 280px;
+    line-height: 1.55;
+  }
+  .map-consent .btn { padding: 12px 24px; font-size: 13px; }
+
+  @media (max-width: 640px) {
+    .cookie-inner { flex-direction: column; align-items: flex-start; gap: 14px; }
+    .cookie-btns { width: 100%; }
+    .cookie-btns .btn { flex: 1; justify-content: center; }
+  }
+
+  /* ---------- PRINT ---------- */
+  @media print {
+    .site-nav, .cookie-banner, .nav-overlay, .final-cta, .scroll-cue { display: none !important; }
+    body { background: #fff; color: #000; font-size: 12pt; }
+    a[href]::after { content: ' (' attr(href) ')'; font-size: 10pt; color: #666; }
+    footer { border-top: 1px solid #ccc; padding: 16pt 0; }
+  }
