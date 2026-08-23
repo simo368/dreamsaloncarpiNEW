@@ -149,8 +149,8 @@ function renderPackages(data) {
 function renderTeam(data) {
   const grid = document.getElementById('teamGrid');
   if (!grid || !data.team) return;
-  // Mostra solo i membri confermati (confirmed === 'true')
-  const confirmed = data.team.filter(t => t.confirmed === 'true');
+  // Mostra solo i membri confermati (confirmed === 'true' o 'TRUE')
+  const confirmed = data.team.filter(t => String(t.confirmed).toLowerCase() === 'true');
   const list = confirmed.length ? confirmed : data.team;
   grid.innerHTML = list.map(t => `
     <div class="team-card reveal in">
