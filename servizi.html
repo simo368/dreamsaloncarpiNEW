@@ -4,11 +4,214 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Servizi — Dream Salon Carpi</title>
-<meta name="description" content="Servizi di Dream Salon Carpi: taglio donna, taglio uomo, piega, colore, trattamenti, pacchetti personalizzati.">
+<meta name="description" content="Tutti i servizi di Dream Salon Carpi: consulenza, taglio, colore senza ammoniaca, trattamenti cute e lunghezze, piega, Kerasilk, Elumen, effetti moda.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<style>
+  /* ---- PAGE HERO ---- */
+  .page-hero {
+    background: linear-gradient(160deg, var(--forest) 0%, var(--anthracite) 100%);
+    padding: 160px 0 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .page-hero::after {
+    content: "Dream Salon";
+    position: absolute;
+    right: -40px;
+    bottom: -30px;
+    font-family: 'Fraunces', serif;
+    font-size: clamp(80px, 12vw, 160px);
+    font-weight: 500;
+    font-style: italic;
+    color: rgba(176,138,78,0.07);
+    pointer-events: none;
+    white-space: nowrap;
+    line-height: 1;
+  }
+
+  /* ---- INTRO STRIP ---- */
+  .intro-strip {
+    background: var(--brass);
+    padding: 18px 0;
+  }
+  .intro-strip p {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--anthracite);
+    text-align: center;
+    font-weight: 500;
+  }
+
+  /* ---- CATEGORY SECTION ---- */
+  .category-section {
+    padding: 90px 0 60px;
+  }
+  .category-section + .category-section {
+    border-top: 1px solid var(--line);
+  }
+  .category-section.dark {
+    background: var(--paper);
+  }
+
+  .category-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 52px;
+    flex-wrap: wrap;
+  }
+  .category-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--brass);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 8px;
+  }
+  .category-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(30px, 4vw, 48px);
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.05;
+    margin: 0;
+  }
+  .category-title em {
+    color: var(--brass);
+    font-style: italic;
+  }
+  .category-desc {
+    max-width: 360px;
+    font-size: 14.5px;
+    color: var(--ink-soft);
+    line-height: 1.65;
+  }
+
+  /* ---- SERVICE CARDS GRID ---- */
+  .srv-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  .srv-card {
+    background: #fff;
+    padding: 32px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: background 0.25s ease;
+    position: relative;
+  }
+  .srv-card:hover {
+    background: var(--paper);
+  }
+  .srv-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--brass), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .srv-card:hover::before {
+    opacity: 1;
+  }
+  .srv-card-name {
+    font-family: 'Fraunces', serif;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.1;
+  }
+  .srv-card-desc {
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+    flex: 1;
+  }
+  .srv-card-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--sage);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  /* ---- FEATURED (CONSULENZA) ---- */
+  .feature-card {
+    background: var(--forest);
+    color: var(--cream);
+    padding: 56px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .feature-card::after {
+    content: "01";
+    position: absolute;
+    right: 32px;
+    bottom: -20px;
+    font-family: 'Fraunces', serif;
+    font-size: 120px;
+    font-weight: 500;
+    color: rgba(176,138,78,0.12);
+    line-height: 1;
+  }
+  .feature-card .eyebrow { color: var(--brass-light); }
+  .feature-card h2 {
+    font-size: clamp(26px, 3.5vw, 40px);
+    color: var(--paper);
+    font-weight: 500;
+    margin: 16px 0 20px;
+    max-width: 520px;
+  }
+  .feature-card p {
+    font-size: 15.5px;
+    color: rgba(244,240,230,0.8);
+    max-width: 480px;
+    line-height: 1.7;
+  }
+
+  /* ---- DARK CATEGORY (colore) ---- */
+  .category-section.section-dark .category-title { color: var(--paper); }
+  .category-section.section-dark .category-desc { color: rgba(244,240,230,0.65); }
+  .category-section.section-dark .srv-grid { background: rgba(244,240,230,0.1); border-color: rgba(244,240,230,0.12); }
+  .category-section.section-dark .srv-card { background: rgba(244,240,230,0.05); }
+  .category-section.section-dark .srv-card:hover { background: rgba(244,240,230,0.1); }
+  .category-section.section-dark .srv-card-name { color: var(--paper); }
+  .category-section.section-dark .srv-card-desc { color: rgba(244,240,230,0.65); }
+  .category-section.section-dark .srv-card-tag { color: var(--brass-light); }
+
+  /* ---- ORARIO STRIP ---- */
+  .appointment-note {
+    background: var(--anthracite);
+    padding: 60px 0;
+    text-align: center;
+  }
+  .appointment-note .eyebrow { justify-content: center; color: var(--brass-light); }
+  .appointment-note p {
+    color: rgba(244,240,230,0.7);
+    font-size: 15px;
+    margin-top: 12px;
+  }
+  .appointment-note strong { color: var(--paper); }
+
+  @media (max-width: 768px) {
+    .feature-card { padding: 38px 28px; }
+    .category-header { flex-direction: column; align-items: flex-start; }
+    .srv-grid { grid-template-columns: 1fr; }
+  }
+</style>
 </head>
 <body>
 
@@ -21,7 +224,7 @@
     </button>
     <nav class="nav-links" id="navLinks">
       <a href="index.html#consulenza">Il metodo</a>
-      <a href="servizi.html">Servizi</a>
+      <a href="servizi.html" class="active">Servizi</a>
       <a href="team.html">Team</a>
       <a href="contatti.html">Contatti</a>
       <a href="tel:059640544" class="cta-pill" id="navPhone"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg> 059 640544</a>
@@ -29,60 +232,164 @@
   </div>
 </header>
 
-<!-- ============ PAGE HEADER ============ -->
-<section class="section" style="background:var(--paper); padding-top:160px; padding-bottom:60px;">
+<!-- ============ PAGE HERO ============ -->
+<section class="page-hero">
   <div class="wrap">
-    <p class="eyebrow">Servizi</p>
-    <h1 style="font-size:clamp(28px,3.6vw,44px);">Una selezione curata, non un listino infinito.</h1>
-    <p class="lede" style="max-width:480px; margin-top:18px;">I servizi principali reperiti dalle fonti pubbliche del salone. Prezzi e listino completo su richiesta diretta in salone.</p>
+    <p class="eyebrow light">Servizi</p>
+    <h1 style="font-size:clamp(32px,5vw,62px); color:var(--paper); font-weight:500; max-width:640px; line-height:1.05; margin-top:8px;">
+      Ogni servizio nasce da un'<em style="color:var(--brass-light); font-style:italic;">ascolto</em>.
+    </h1>
+    <p style="color:rgba(244,240,230,0.72); font-size:16px; max-width:480px; margin-top:22px; line-height:1.7;">
+      A Dream Salon non esistono proposte standard. Il servizio inizia sempre dalla consulenza: morfologia, incarnato, stile di vita.
+    </p>
   </div>
 </section>
 
-<!-- ============ SERVIZI COMPLETI ============ -->
-<section class="section section-tight" id="servizi" style="background:var(--paper);">
+<!-- ============ INTRO STRIP ============ -->
+<div class="intro-strip">
   <div class="wrap">
-    <div class="services-grid reveal" id="servicesGrid">
-      <div class="service-card">
-        <div><div class="s-top"><h3>Taglio donna</h3></div><p>Preceduto da consulenza d'immagine e valutazione della morfologia del viso.</p></div><span class="price-note">Prezzo su richiesta</span>
+    <p>Colore senza ammoniaca · Velian Complex · Kerasilk 100% vegano · Si riceve su appuntamento</p>
+  </div>
+</div>
+
+<!-- ============ 01 — CONSULENZA ============ -->
+<section class="category-section">
+  <div class="wrap">
+    <div class="feature-card reveal">
+      <p class="eyebrow light">01 — La base di tutto</p>
+      <h2>Consulenza d'immagine</h2>
+      <p>Punto fondamentale per un servizio accurato e personalizzato. Prima del taglio, del colore o di qualsiasi trattamento, Cristina analizza morfologia del viso, tono dell'incarnato e stile personale. Da qui nasce ogni proposta.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 02 — TAGLIO & STYLING ============ -->
+<section class="category-section dark">
+  <div class="wrap">
+    <div class="category-header reveal">
+      <div>
+        <span class="category-num">02 — Taglio & Styling</span>
+        <h2 class="category-title">La forma che ti <em>appartiene</em>.</h2>
       </div>
-      <div class="service-card">
-        <div><div class="s-top"><h3>Taglio uomo</h3></div><p>Taglio su misura, aggiornato sulle tendenze del momento.</p></div><span class="price-note">Prezzo su richiesta</span>
+      <p class="category-desc">Tecniche costruite sulla struttura del viso e sulla texture del capello. Ogni taglio è sartoriale, ogni piega è studiata.</p>
+    </div>
+    <div class="srv-grid reveal">
+      <div class="srv-card">
+        <div class="srv-card-name">Taglio</div>
+        <div class="srv-card-desc">Creiamo il tuo taglio analizzando la morfologia del viso e del capello. Sartoriale, non standard.</div>
+        <div class="srv-card-tag">Consulenza inclusa</div>
       </div>
-      <div class="service-card">
-        <div><div class="s-top"><h3>Piega Luxury</h3><span class="dur">45 min</span></div><p>Piega curata nei dettagli, per un risultato più duraturo.</p></div><span class="price-note">Prezzo su richiesta</span>
+      <div class="srv-card">
+        <div class="srv-card-name">Piega</div>
+        <div class="srv-card-desc">Varie tecniche di styling — ferri e piastre inclusi — per dare forma e volume ai tuoi capelli.</div>
+        <div class="srv-card-tag">Styling professionale</div>
       </div>
-      <div class="service-card">
-        <div><div class="s-top"><h3>Piega capelli media lunghezza</h3><span class="dur">30 min</span></div><p>Piega classica su lunghezze medie.</p></div><span class="price-note">Prezzo su richiesta</span>
-      </div>
-      <div class="service-card">
-        <div><div class="s-top"><h3>Colore &amp; colpi di luce</h3></div><p>Colorazione, gloss/tonalizzanti e colpi di luce, in pacchetto dedicato.</p></div><span class="price-note">Prezzo su richiesta</span>
-      </div>
-      <div class="service-card">
-        <div><div class="s-top"><h3>Trattamenti cute e capelli</h3><span class="dur">15 min – 1 h</span></div><p>Trattamento cute mirato e ricostruzione profonda della fibra.</p></div><span class="price-note">Prezzo su richiesta</span>
-      </div>
-      <div class="service-card">
-        <div><div class="s-top"><h3>Barba</h3></div><p>Servizio dedicato alla cura della barba.</p></div><span class="price-note">Prezzo su richiesta</span>
-      </div>
-      <div class="service-card">
-        <div><div class="s-top"><h3>Piega capelli corti</h3><span class="dur">30 min</span></div><p>Piega rapida su lunghezze corte.</p></div><span class="price-note">Prezzo su richiesta</span>
+      <div class="srv-card">
+        <div class="srv-card-name">Ondulazione</div>
+        <div class="srv-card-desc">Crea il tuo styling curly con onde o ricci definiti e duraturi. Risultato naturale e personalizzato.</div>
+        <div class="srv-card-tag">Curly styling</div>
       </div>
     </div>
-    <div class="packages" id="packagesGrid">
-      <div class="package-card">
-        <p class="eyebrow light">Pacchetto</p><h3 style="color:var(--paper); font-size:20px; font-weight:500;">Percorso Effetto Moda</h3><p>Taglio donna + effetto moda + colore + piega capelli media lunghezza.</p><span class="dur">2 h 45 min · prezzo su richiesta</span>
+  </div>
+</section>
+
+<!-- ============ 03 — COLORE ============ -->
+<section class="category-section section-dark" style="background:var(--forest);">
+  <div class="wrap">
+    <div class="category-header reveal">
+      <div>
+        <span class="category-num">03 — Colore</span>
+        <h2 class="category-title" style="color:var(--paper);">Luminosità <em>senza compromessi</em>.</h2>
       </div>
-      <div class="package-card">
-        <p class="eyebrow light">Pacchetto</p><h3 style="color:var(--paper); font-size:20px; font-weight:500;">Percorso Luce &amp; Colore</h3><p>Taglio donna + piega media lunghezza + gloss/tonalizzanti + colpi di luce.</p><span class="dur">2 h 45 min · prezzo su richiesta</span>
+      <p class="category-desc">Colorazione senza ammoniaca con principi attivi Velian Complex. Colori brillanti, duraturi, rispettosi della fibra.</p>
+    </div>
+    <div class="srv-grid reveal">
+      <div class="srv-card">
+        <div class="srv-card-name">Colore</div>
+        <div class="srv-card-desc">Colorazione senza ammoniaca con principi attivi Velian Complex, per colori brillanti e rispettosi della fibra del capello.</div>
+        <div class="srv-card-tag">Senza ammoniaca</div>
+      </div>
+      <div class="srv-card">
+        <div class="srv-card-name">Demi Permanente</div>
+        <div class="srv-card-desc">Texture in gel per creare giochi di profondità e luminosità personalizzati. Risultato ricco e naturale.</div>
+        <div class="srv-card-tag">Gel texture</div>
+      </div>
+      <div class="srv-card">
+        <div class="srv-card-name">Elumen</div>
+        <div class="srv-card-desc">Colorazione diretta senza ossigeno per mascherare i capelli bianchi, lasciando un effetto naturale al colore.</div>
+        <div class="srv-card-tag">Senza ossigeno</div>
+      </div>
+      <div class="srv-card">
+        <div class="srv-card-name">Colpi di Luce</div>
+        <div class="srv-card-desc">Servizio personalizzato di schiaritura, adatto a ogni tipo di capello e incarnato.</div>
+        <div class="srv-card-tag">Schiaritura selettiva</div>
+      </div>
+      <div class="srv-card">
+        <div class="srv-card-name">Effetti Moda</div>
+        <div class="srv-card-desc">Sfumature naturali e personalizzate per soddisfare le esigenze di ogni cliente. Tendenze interpretate su misura.</div>
+        <div class="srv-card-tag">Balayage & sfumature</div>
       </div>
     </div>
+    <div style="margin-top:24px; padding: 20px 24px; border:1px solid rgba(244,240,230,0.15); display:inline-flex; align-items:center; gap:14px;">
+      <span style="font-family:'Fraunces',serif; font-style:italic; font-size:18px; color:var(--brass-light);">Kemon</span>
+      <span style="width:1px; height:20px; background:rgba(244,240,230,0.2);"></span>
+      <span style="font-size:12.5px; color:rgba(244,240,230,0.55); font-family:'JetBrains Mono',monospace; letter-spacing:0.04em;">Colorazioni professionali — tecnologia da agricoltura bio</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 04 — TRATTAMENTI ============ -->
+<section class="category-section dark">
+  <div class="wrap">
+    <div class="category-header reveal">
+      <div>
+        <span class="category-num">04 — Trattamenti</span>
+        <h2 class="category-title">Benessere che si <em>vede</em>.</h2>
+      </div>
+      <p class="category-desc">Rituali personalizzati per cute e lunghezze. Ogni trattamento è scelto in funzione del tipo di capello e delle sue esigenze specifiche.</p>
+    </div>
+    <div class="srv-grid reveal">
+      <div class="srv-card">
+        <div class="srv-card-name">Trattamenti Cute</div>
+        <div class="srv-card-desc">Trattamenti specifici per ogni disfunzione del cuoio capelluto. Diagnosi e protocollo personalizzato.</div>
+        <div class="srv-card-tag">Trattamento mirato</div>
+      </div>
+      <div class="srv-card">
+        <div class="srv-card-name">Trattamenti Lunghezze</div>
+        <div class="srv-card-desc">Rituali benessere personalizzati per ogni tipo di capello: lucentezza e corposità garantite.</div>
+        <div class="srv-card-tag">Lucentezza & corposità</div>
+      </div>
+      <div class="srv-card" style="border-left: 3px solid var(--brass); position:relative;">
+        <div class="srv-card-name">Kerasilk</div>
+        <div class="srv-card-desc">Trattamento disciplinante per capelli ondulati, ricci e crespi. Risultato morbido, gestibile, duraturo.</div>
+        <div style="display:flex; gap:10px; align-items:center; margin-top:6px; flex-wrap:wrap;">
+          <div class="srv-card-tag">100% Vegano</div>
+          <div class="srv-card-tag">Capelli ricci & crespi</div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:24px; padding: 20px 24px; border:1px solid var(--line); display:inline-flex; align-items:center; gap:14px;">
+      <span style="font-family:'Fraunces',serif; font-style:italic; font-size:18px; color:var(--brass);">Davines</span>
+      <span style="width:1px; height:20px; background:var(--line);"></span>
+      <span style="font-size:12.5px; color:var(--ink-soft); font-family:'JetBrains Mono',monospace; letter-spacing:0.04em;">Prodotti per il mantenimento a casa — made in Italy</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ APPUNTAMENTO ============ -->
+<section class="appointment-note">
+  <div class="wrap">
+    <p class="eyebrow">Prenota</p>
+    <p style="font-size:clamp(20px,3vw,32px); font-family:'Fraunces',serif; color:var(--paper); margin:16px 0 10px; font-weight:500;">Si riceve <em style="color:var(--brass-light); font-style:italic;">su appuntamento</em>.</p>
+    <p>Chiama o scrivi per prenotare il tuo momento da Dream Salon.</p>
   </div>
 </section>
 
 <!-- ============ CTA FINALE ============ -->
 <section class="final-cta">
   <div class="wrap">
-    <p class="eyebrow">Prenota</p>
-    <h2>La tua immagine merita più di un taglio a caso.</h2>
+    <p class="eyebrow">Contattaci</p>
+    <h2>Ogni visita inizia con una conversazione.</h2>
     <div class="btn-row">
       <a href="tel:059640544" class="btn btn-primary" id="finalCta"><span id="finalCtaText"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg> Chiama 059 640544</span></a>
       <a href="mailto:dreamsalon2012@libero.it" class="btn btn-outline">Scrivi una email</a>
@@ -115,14 +422,11 @@
         </div>
         <div class="footer-col">
           <h4>Sui social</h4>
-          <span class="social-link disabled" id="footerFacebook" aria-disabled="true">Facebook — da collegare</span>
-          <span class="social-link disabled" id="footerInstagram" aria-disabled="true">Instagram — da collegare</span>
+          <span class="social-link disabled" id="footerFacebook" aria-disabled="true">Facebook</span>
+          <span class="social-link disabled" id="footerInstagram" aria-disabled="true">Instagram</span>
         </div>
       </div>
     </div>
-
-
-
     <div class="footer-bottom">
       <span>© 2026 Dream Salon di Guanci Cristina &amp; C. sas — P.IVA 03461270369</span>
     </div>
@@ -133,6 +437,3 @@
 <script src="site.js"></script>
 </body>
 </html>
-
-
-
