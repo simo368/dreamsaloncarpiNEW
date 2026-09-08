@@ -3,12 +3,666 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dream Salon Carpi — Parrucchieri &amp; Consulenza d'Immagine</title>
-<meta name="description" content="Dream Salon Carpi, Via Cuneo 5 — taglio sartoriale, colore, trattamenti cute e capelli. Consulenza d'immagine personalizzata con Cristina Guanci, 20 anni di esperienza.">
+<title>Dream Salon — Parrucchieri · Carpi (MO)</title>
+<meta name="description" content="Dream Salon Carpi. Consulenza d'immagine, taglio sartoriale, colore senza ammoniaca. Via Cuneo 5, Carpi. Tel 059 640544.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<style>
+
+/* =====================================================
+   RESET E VARIABILI GLOBALI
+===================================================== */
+:root {
+  --forest: #1F2E23;
+  --forest-2: #263D2C;
+  --anthracite: #17181B;
+  --cream: #F4F0E6;
+  --paper: #FBF9F4;
+  --brass: #B08A4E;
+  --brass-light: #D8BE8E;
+  --sage: #7C9182;
+  --ink: #1B1B18;
+  --ink-soft: #4A4A44;
+  --line: rgba(27,27,24,0.1);
+  --line-light: rgba(244,240,230,0.15);
+  --maxw: 1240px;
+}
+
+/* =====================================================
+   HERO — fullscreen editoriale
+===================================================== */
+.hero-new {
+  min-height: 100svh;
+  background: var(--anthracite);
+  display: grid;
+  grid-template-rows: 1fr auto;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Immagine sfondo con overlay */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background: url('https://cdn1.treatwell.net/images/view/v2.i7363698.w1080.h720.x340E8D03/') center/cover no-repeat;
+  opacity: 0.22;
+}
+
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 clamp(28px,6vw,80px) 72px;
+  position: relative;
+  z-index: 2;
+}
+
+/* Tag location */
+.hero-loc {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--brass-light);
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.hero-loc::before {
+  content: "";
+  width: 28px;
+  height: 1px;
+  background: var(--brass);
+  display: block;
+}
+
+/* Titolo enorme */
+.hero-display {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(52px, 9vw, 120px);
+  font-weight: 300;
+  line-height: 0.95;
+  color: var(--paper);
+  letter-spacing: -0.02em;
+  margin: 0 0 48px;
+}
+.hero-display em {
+  font-style: italic;
+  color: var(--brass-light);
+}
+
+/* Bottom bar */
+.hero-bar {
+  position: relative;
+  z-index: 2;
+  border-top: 1px solid var(--line-light);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+}
+.hero-bar-left {
+  padding: 24px clamp(28px,6vw,80px);
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+.hero-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.hero-stat strong {
+  font-family: 'Fraunces', serif;
+  font-size: 26px;
+  font-weight: 400;
+  color: var(--paper);
+  line-height: 1;
+}
+.hero-stat span {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--brass-light);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.hero-bar-right {
+  padding: 24px clamp(28px,6vw,80px);
+  border-left: 1px solid var(--line-light);
+}
+.hero-bar-right a {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--brass-light);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: color 0.25s;
+}
+.hero-bar-right a:hover { color: var(--paper); }
+.hero-bar-right a svg { flex-shrink: 0; }
+
+/* =====================================================
+   MANIFESTO — la sezione identità
+===================================================== */
+.manifesto {
+  background: var(--cream);
+  padding: clamp(80px,10vw,140px) clamp(28px,6vw,80px);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+.manifesto-left {}
+.manifesto-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--brass);
+  margin-bottom: 32px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.manifesto-tag::before {
+  content: "";
+  width: 22px;
+  height: 1px;
+  background: var(--brass);
+}
+.manifesto-headline {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(36px, 5vw, 58px);
+  font-weight: 400;
+  line-height: 1.05;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+.manifesto-headline em {
+  font-style: italic;
+  color: var(--brass);
+}
+
+.manifesto-right {
+  padding-top: clamp(0px, 4vw, 60px);
+}
+.manifesto-quote {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(18px, 2.2vw, 24px);
+  font-weight: 300;
+  font-style: italic;
+  color: var(--ink-soft);
+  line-height: 1.55;
+  margin: 0 0 48px;
+  border-left: 2px solid var(--brass);
+  padding-left: 24px;
+}
+.manifesto-values {
+  display: grid;
+  gap: 0;
+}
+.mv-item {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+}
+.mv-item:first-child { border-top: 1px solid var(--line); }
+.mv-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--brass);
+  width: 28px;
+  flex-shrink: 0;
+}
+.mv-text {
+  font-size: 14px;
+  color: var(--ink);
+  font-weight: 400;
+}
+
+/* =====================================================
+   CRISTINA — la protagonista
+===================================================== */
+.cristina {
+  background: var(--forest);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 520px;
+}
+.cristina-visual {
+  background: linear-gradient(160deg, #263D2C 0%, #1B2A1E 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  padding: 60px;
+}
+.cristina-visual::after {
+  content: "C";
+  position: absolute;
+  font-family: 'Fraunces', serif;
+  font-size: 300px;
+  font-style: italic;
+  font-weight: 300;
+  color: rgba(176,138,78,0.08);
+  line-height: 1;
+  bottom: -40px;
+  right: -20px;
+}
+.cristina-initial {
+  font-family: 'Fraunces', serif;
+  font-size: 96px;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--brass-light);
+  position: relative;
+  z-index: 1;
+}
+.cristina-text {
+  padding: clamp(48px,6vw,80px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 28px;
+}
+.cristina-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--brass-light);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.cristina-tag::before { content: ""; width: 22px; height: 1px; background: var(--brass); }
+.cristina-name {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 400;
+  color: var(--paper);
+  line-height: 1.05;
+  margin: 0;
+}
+.cristina-role {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--brass);
+  margin-top: -12px;
+}
+.cristina-facts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--line-light);
+  margin-top: 8px;
+}
+.cf-item {
+  background: rgba(244,240,230,0.04);
+  padding: 20px;
+}
+.cf-value {
+  font-family: 'Fraunces', serif;
+  font-size: 32px;
+  font-weight: 400;
+  color: var(--paper);
+  line-height: 1;
+}
+.cf-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--brass-light);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-top: 6px;
+}
+.cristina-bio {
+  font-size: 14px;
+  color: rgba(244,240,230,0.65);
+  line-height: 1.7;
+}
+
+/* =====================================================
+   SERVIZI — griglia compatta
+===================================================== */
+.servizi-section {
+  background: var(--paper);
+  padding: clamp(80px,10vw,130px) clamp(28px,6vw,80px);
+}
+.srv-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 60px;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.srv-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--brass);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.srv-tag::before { content: ""; width: 22px; height: 1px; background: var(--brass); }
+.srv-title {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(30px, 4vw, 48px);
+  font-weight: 400;
+  color: var(--ink);
+  margin: 0;
+  line-height: 1.05;
+}
+.srv-title em { font-style: italic; color: var(--brass); }
+.srv-cta-link {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid var(--ink);
+  padding-bottom: 2px;
+  transition: color 0.25s, border-color 0.25s;
+  white-space: nowrap;
+}
+.srv-cta-link:hover { color: var(--brass); border-color: var(--brass); }
+
+/* Griglia servizi a righe */
+.srv-list {
+  display: grid;
+  gap: 0;
+  border: 1px solid var(--line);
+}
+.srv-row {
+  display: grid;
+  grid-template-columns: 48px 1fr auto;
+  align-items: center;
+  padding: 22px 28px;
+  border-bottom: 1px solid var(--line);
+  gap: 24px;
+  transition: background 0.2s;
+  cursor: default;
+}
+.srv-row:last-child { border-bottom: none; }
+.srv-row:hover { background: #fff; }
+.srv-row-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--brass);
+  opacity: 0.7;
+}
+.srv-row-name {
+  font-family: 'Fraunces', serif;
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--ink);
+}
+.srv-row-cat {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--sage);
+  white-space: nowrap;
+}
+
+/* =====================================================
+   BRAND STRIP
+===================================================== */
+.brand-strip {
+  background: var(--anthracite);
+  padding: 56px clamp(28px,6vw,80px);
+  display: flex;
+  align-items: center;
+  gap: 60px;
+  flex-wrap: wrap;
+}
+.brand-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(244,240,230,0.35);
+  white-space: nowrap;
+}
+.brand-divider { width: 1px; height: 30px; background: var(--line-light); }
+.brand-name {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 26px;
+  font-weight: 300;
+  color: var(--brass-light);
+}
+.brand-desc {
+  font-size: 12.5px;
+  color: rgba(244,240,230,0.4);
+  max-width: 200px;
+  line-height: 1.5;
+}
+
+/* =====================================================
+   RATING
+===================================================== */
+.rating-section {
+  background: var(--cream);
+  padding: clamp(80px,10vw,130px) clamp(28px,6vw,80px);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 80px;
+  align-items: center;
+}
+.rating-big-num {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(100px, 16vw, 180px);
+  font-weight: 300;
+  color: var(--ink);
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+}
+.rating-right {}
+.rating-stars {
+  color: var(--brass);
+  font-size: 22px;
+  letter-spacing: 3px;
+  margin-bottom: 16px;
+}
+.rating-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--ink-soft);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 32px;
+}
+.rating-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.rating-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.04em;
+  border: 1px solid var(--line);
+  padding: 8px 14px;
+  color: var(--ink-soft);
+}
+
+/* =====================================================
+   CTA FINALE
+===================================================== */
+.cta-final {
+  background: var(--forest);
+  padding: clamp(100px,12vw,160px) clamp(28px,6vw,80px);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 60px;
+  align-items: center;
+}
+.cta-final-text {}
+.cta-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--brass-light);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.cta-tag::before { content: ""; width: 22px; height: 1px; background: var(--brass); }
+.cta-headline {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(32px, 5vw, 62px);
+  font-weight: 400;
+  color: var(--paper);
+  line-height: 1.05;
+  margin: 0;
+}
+.cta-headline em { font-style: italic; color: var(--brass-light); }
+.cta-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: flex-end;
+}
+.btn-cta-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 32px;
+  background: var(--brass);
+  color: var(--anthracite);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background 0.25s;
+  white-space: nowrap;
+}
+.btn-cta-primary:hover { background: var(--brass-light); }
+.btn-cta-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 32px;
+  border: 1px solid rgba(244,240,230,0.25);
+  color: rgba(244,240,230,0.7);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: border-color 0.25s, color 0.25s;
+  white-space: nowrap;
+}
+.btn-cta-ghost:hover { border-color: var(--paper); color: var(--paper); }
+
+/* =====================================================
+   FOOTER
+===================================================== */
+footer {
+  background: var(--anthracite);
+  padding: 56px clamp(28px,6vw,80px) 32px;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 60px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid var(--line-light);
+}
+.footer-brand-name {
+  font-family: 'Fraunces', serif;
+  font-size: 24px;
+  font-weight: 400;
+  color: var(--paper);
+  margin-bottom: 10px;
+}
+.footer-brand-name span { color: var(--brass); }
+.footer-sub {
+  font-size: 12.5px;
+  color: rgba(244,240,230,0.4);
+  line-height: 1.6;
+  margin-top: 8px;
+}
+.footer-col-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brass-light);
+  margin-bottom: 18px;
+  font-weight: 400;
+}
+.footer-col a, .footer-col span, .footer-col p {
+  display: block;
+  font-size: 13px;
+  color: rgba(244,240,230,0.55);
+  margin-bottom: 10px;
+  text-decoration: none;
+  transition: color 0.25s;
+  line-height: 1.5;
+}
+.footer-col a:hover { color: var(--paper); }
+.footer-bottom {
+  margin-top: 28px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: rgba(244,240,230,0.25);
+  letter-spacing: 0.04em;
+}
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+@media (max-width: 980px) {
+  .manifesto { grid-template-columns: 1fr; gap: 48px; }
+  .cristina { grid-template-columns: 1fr; }
+  .cristina-visual { min-height: 220px; }
+  .rating-section { grid-template-columns: 1fr; gap: 32px; }
+  .cta-final { grid-template-columns: 1fr; }
+  .cta-actions { align-items: flex-start; flex-direction: row; flex-wrap: wrap; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 640px) {
+  .hero-bar { grid-template-columns: 1fr; }
+  .hero-bar-right { border-left: none; border-top: 1px solid var(--line-light); }
+  .hero-bar-left { gap: 24px; }
+  .cristina-facts { grid-template-columns: 1fr 1fr; }
+  .srv-row { grid-template-columns: 36px 1fr; }
+  .srv-row-cat { display: none; }
+  .brand-strip { gap: 28px; }
+  .cta-final { grid-template-columns: 1fr; }
+  .cta-actions { flex-direction: column; }
+  .footer-grid { grid-template-columns: 1fr; gap: 36px; }
+  .rating-big-num { font-size: 100px; }
+}
+
+</style>
 </head>
 <body>
 
@@ -20,290 +674,204 @@
       <span></span><span></span><span></span>
     </button>
     <nav class="nav-links" id="navLinks">
-      <a href="index.html#consulenza">Il metodo</a>
       <a href="servizi.html">Servizi</a>
       <a href="team.html">Team</a>
       <a href="contatti.html">Contatti</a>
-      <a href="tel:059640544" class="cta-pill" id="navPhone"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg> 059 640544</a>
+      <a href="tel:059640544" class="cta-pill" id="navPhone">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        059 640544
+      </a>
     </nav>
   </div>
 </header>
 
 <!-- ============ HERO ============ -->
-<section class="hero" id="top">
-  <div class="wrap">
-    <div class="hero-inner">
-      <p class="eyebrow light">Parrucchieri · Via Cuneo 5 · Carpi (MO)</p>
-      <h1 id="heroHeadline">Ogni taglio parte da un'<em>analisi</em>, non da un'idea presa a caso.</h1>
-      <p class="hero-sub" id="heroSub">Dream Salon è il salone dove Cristina Guanci, con più di venticinque anni di esperienza, costruisce un'immagine su misura: morfologia del viso, colore dell'incarnato, stile personale — prima ancora del taglio.</p>
-      <div class="hero-meta" id="heroMeta">
-        <span>★ 4,9 / 5 — <span id="heroTreatwell">Treatwell</span></span>
-        <span>37 recensioni</span>
-        <span>Trattamenti Davines · Kemon</span>
+<section class="hero-new" id="top">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <p class="hero-loc">Parrucchieri · Via Cuneo 5 · Carpi (MO)</p>
+    <h1 class="hero-display" id="heroHeadline">
+      Il tempo<br>rallenta.<br><em>Il risultato</em><br>resta.
+    </h1>
+  </div>
+  <div class="hero-bar">
+    <div class="hero-bar-left">
+      <div class="hero-stat">
+        <strong>25+</strong>
+        <span>anni di esperienza</span>
       </div>
-      <div class="hero-actions">
-        <a href="tel:059640544" class="btn btn-primary" id="heroCta"><span id="heroCtaText"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg> Chiama 059 640544</span></a>
-        <a href="#servizi" class="btn btn-outline">Scopri i servizi</a>
+      <div class="hero-stat">
+        <strong>4,9</strong>
+        <span>su Treatwell</span>
+      </div>
+      <div class="hero-stat">
+        <strong>Su appuntamento</strong>
+        <span>Si riceve</span>
       </div>
     </div>
-  </div>
-  <span class="scroll-cue">Scorri</span>
-</section>
-
-<!-- ============ VALORE / CONSULENZA ============ -->
-<section class="section" id="consulenza">
-  <div class="wrap">
-    <div class="value-grid">
-      <div class="value-text reveal">
-        <p class="eyebrow">Il metodo</p>
-        <h2 style="font-size:clamp(26px,3.4vw,38px); margin-bottom:24px;">Non tagliamo capelli. Costruiamo un'immagine che ti somiglia.</h2>
-        <p>Dream Salon trasmette calore e familiarità. Arredi raffinati, luci studiate e profumi delicati creano un ambiente dove il tempo rallenta e ogni cliente si sente parte di una famiglia.</p>
-        <p>Cristina, con più di venticinque anni di carriera e un percorso accanto a brand stilisti di grande rilievo, ascolta e osserva ogni cliente per costruire un'immagine personalizzata e unica — aggiornata sulle tendenze più innovative, pensata su misura.</p>
-        <ul class="value-points">
-          <li><span class="num">01</span><span>Valutazione della morfologia del viso e delle proporzioni</span></li>
-          <li><span class="num">02</span><span>Lettura dei colori dell'incarnato per scegliere toni coerenti</span></li>
-          <li><span class="num">03</span><span>Ascolto dello stile personale e delle abitudini quotidiane</span></li>
-          <li><span class="num">04</span><span>Tecnica di taglio sartoriale, costruita sulla singola persona</span></li>
-        </ul>
-      </div>
-      <div class="reveal">
-        <div class="consult-card">
-          <div class="card-eyebrow"><span>Scheda consulenza</span><span>Dream Salon</span></div>
-          <div class="consult-row"><span class="label">Morfologia viso</span><span class="val">DA VALUTARE IN SALONE</span></div>
-          <div class="consult-row"><span class="label">Tono incarnato</span>
-            <span class="swatches">
-              <span class="swatch" style="background:#E8C39E"></span>
-              <span class="swatch" style="background:#C98A5E"></span>
-              <span class="swatch" style="background:#8B5A3C"></span>
-            </span>
-          </div>
-          <div class="consult-row"><span class="label">Stile personale</span><span class="val">CONTEMPORANEO / SARTORIALE</span></div>
-          <div class="consult-row"><span class="label">Trattamento consigliato</span><span class="val">NUOVA FIBRA · DISCIPLINA</span></div>
-          <div class="consult-row"><span class="label">Linea prodotti</span><span class="val">DAVINES / KEMON</span></div>
-          <div class="consult-foot">La consulenza d'immagine è il primo passo di ogni appuntamento: <b>si costruisce insieme, in salone.</b></div>
-        </div>
-      </div>
+    <div class="hero-bar-right">
+      <a href="tel:059640544" id="heroCta">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        Prenota ora
+      </a>
     </div>
   </div>
 </section>
 
-<!-- ============ SERVIZI IN EVIDENZA ============ -->
-<section class="section section-tight" id="servizi" style="background:var(--paper);">
-  <div class="wrap">
-    <div class="header-row reveal">
-      <div>
-        <p class="eyebrow">Servizi</p>
-        <h2>Una selezione curata, non un listino infinito.</h2>
-      </div>
-      <p class="lede">I servizi principali reperiti dalle fonti pubbliche del salone. Prezzi e listino completo su richiesta diretta in salone.</p>
-    </div>
-    <div class="services-grid reveal" id="featuredGrid">
-      <div class="service-card">
-        <div>
-          <div class="s-top">
-            <h3>Taglio donna</h3>
-          </div>
-          <p>Preceduto da consulenza d'immagine e valutazione della morfologia del viso.</p>
-        </div>
-        <span class="price-note">Prezzo su richiesta</span>
-      </div>
-      <div class="service-card">
-        <div>
-          <div class="s-top">
-            <h3>Taglio uomo</h3>
-          </div>
-          <p>Taglio su misura, aggiornato sulle tendenze del momento.</p>
-        </div>
-        <span class="price-note">Prezzo su richiesta</span>
-      </div>
-      <div class="service-card">
-        <div>
-          <div class="s-top">
-            <h3>Piega Luxury</h3>
-            <span class="dur">45 min</span>
-          </div>
-          <p>Piega curata nei dettagli, per un risultato più duraturo.</p>
-        </div>
-        <span class="price-note">Prezzo su richiesta</span>
-      </div>
-    </div>
-    <div style="text-align:center; margin-top:40px;">
-      <a href="servizi.html" class="btn btn-dark">Vedi tutti i servizi &rarr;</a>
-    </div>
+<!-- ============ MANIFESTO ============ -->
+<section class="manifesto" id="consulenza">
+  <div class="manifesto-left reveal">
+    <p class="manifesto-tag">Il salone</p>
+    <h2 class="manifesto-headline">
+      Non esistono<br>proposte <em>standard</em>.
+    </h2>
   </div>
-</section>
-
-<!-- ============ EXPERTISE ============ -->
-<section class="section section-dark">
-  <div class="wrap">
-    <div class="header-row reveal">
-      <div>
-        <p class="eyebrow light">Expertise</p>
-        <h2>Tre pilastri, un unico metodo.</h2>
+  <div class="manifesto-right reveal">
+    <p class="manifesto-quote">
+      "Arredi raffinati, luci studiate, profumi delicati — un ambiente dove ogni cliente si sente parte di una famiglia."
+    </p>
+    <div class="manifesto-values">
+      <div class="mv-item">
+        <span class="mv-num">01</span>
+        <span class="mv-text">Consulenza d'immagine personalizzata</span>
       </div>
-      <p class="lede">Taglio, trattamento e colore lavorano insieme — non come servizi separati, ma come parti dello stesso percorso.</p>
-    </div>
-    <div class="expertise-grid">
-      <div class="expertise-item reveal">
-        <svg class="exp-icon" viewBox="0 0 40 40" fill="none"><path d="M8 8L32 32M32 8L8 32" stroke="#B08A4E" stroke-width="1.4"/><circle cx="20" cy="20" r="15" stroke="#7C9182" stroke-width="1"/></svg>
-        <h3>Taglio sartoriale</h3>
-        <p>Tecniche di taglio costruite sulla struttura del viso e sulla texture del capello, non su un modello standard applicato a tutti.</p>
+      <div class="mv-item">
+        <span class="mv-num">02</span>
+        <span class="mv-text">Colore senza ammoniaca — Velian Complex</span>
       </div>
-      <div class="expertise-item reveal">
-        <svg class="exp-icon" viewBox="0 0 40 40" fill="none"><path d="M20 6C20 6 10 18 10 25a10 10 0 0020 0c0-7-10-19-10-19z" stroke="#B08A4E" stroke-width="1.4"/></svg>
-        <h3>Ricostruzione Nuova Fibra &amp; Disciplina</h3>
-        <p>Trattamenti mirati per capelli indeboliti o difficili da gestire, pensati per restituire struttura e disciplina alla fibra.</p>
+      <div class="mv-item">
+        <span class="mv-num">03</span>
+        <span class="mv-text">Taglio sartoriale sulla morfologia del viso</span>
       </div>
-      <div class="expertise-item reveal">
-        <svg class="exp-icon" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="4" fill="#7C9182"/><circle cx="10" cy="14" r="3" stroke="#B08A4E" stroke-width="1.2"/><circle cx="30" cy="14" r="3" stroke="#B08A4E" stroke-width="1.2"/><circle cx="20" cy="30" r="3" stroke="#B08A4E" stroke-width="1.2"/></svg>
-        <h3>Colore consapevole — Kemon NaYo</h3>
-        <p>Colorazione priva di ammoniaca, a base di yogurt, calendula e ingredienti da agricoltura biologica: risultato senza compromettere la fibra.</p>
-      </div>
-    </div>
-    <div class="brand-row reveal">
-      <span class="brand-badge">Davines</span>
-      <span class="brand-badge">Kemon</span>
-      <p class="brand-note">Linee professionali utilizzate in salone per trattamenti e colore. Loghi ufficiali da inserire su conferma del titolare.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ============ GALLERY ============ -->
-<section class="section" style="background:var(--paper);">
-  <div class="wrap">
-    <div class="header-row reveal">
-      <div>
-        <p class="eyebrow">Il salone</p>
-        <h2>Uno spazio industrial eco-green, pensato per il comfort.</h2>
-      </div>
-      <p class="lede">Insegna scura, facciata in mattoni, reception bianca con dettagli decorativi, postazioni nere e materiali naturali.</p>
-    </div>
-    <div class="gallery-grid reveal">
-      <div class="g-item tall">
-        <img src="https://cdn1.treatwell.net/images/view/v2.i7363698.w1080.h720.x340E8D03/" loading="lazy" decoding="async" alt="Reception di Dream Salon Carpi, con parete decorativa e logo">
-        <span class="g-tag">Reception</span>
-      </div>
-      <div class="g-item">
-        <img src="https://cdn1.treatwell.net/images/view/v2.i7363715.w1080.h720.xDDF6E4CA/" loading="lazy" decoding="async" alt="Facciata esterna di Dream Salon Carpi su Via Cuneo">
-        <span class="g-tag">Facciata — Via Cuneo</span>
-      </div>
-      <div class="g-item g-placeholder">
-        <span class="g-icon">✂</span>
-        <span>Postazioni di lavoro<br>foto in arrivo</span>
-      </div>
-      <div class="g-item g-placeholder">
-        <span class="g-icon">◐</span>
-        <span>Team al lavoro<br>foto in arrivo</span>
-      </div>
-      <div class="g-item g-placeholder">
-        <span class="g-icon">✦</span>
-        <span>Dettagli &amp; materiali<br>foto in arrivo</span>
+      <div class="mv-item">
+        <span class="mv-num">04</span>
+        <span class="mv-text">Etica e trasparenza nel servizio</span>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============ SOCIAL PROOF ============ -->
-<section class="section section-anthracite">
-  <div class="wrap">
-    <div class="header-row reveal">
-      <div>
-        <p class="eyebrow light">Prova sociale</p>
-        <h2>Quello che dicono le clienti, non quello che diciamo noi.</h2>
+<!-- ============ CRISTINA ============ -->
+<section class="cristina">
+  <div class="cristina-visual">
+    <div class="cristina-initial">CG</div>
+  </div>
+  <div class="cristina-text reveal">
+    <div>
+      <p class="cristina-tag">Il cuore del salone</p>
+      <h2 class="cristina-name">Cristina<br>Guanci</h2>
+      <p class="cristina-role">Titolare · Dream Salon</p>
+    </div>
+    <div class="cristina-facts">
+      <div class="cf-item">
+        <div class="cf-value">25+</div>
+        <div class="cf-label">anni di carriera</div>
+      </div>
+      <div class="cf-item">
+        <div class="cf-value">★ 4,9</div>
+        <div class="cf-label">recensioni</div>
       </div>
     </div>
-    <div class="proof-wrap reveal">
-      <div>
-        <div class="rating-big">
-          <span class="num" id="ratingNum">4,9</span>
-          <div>
-            <div class="stars">★★★★★</div>
-            <div class="count" id="ratingCount">su 37 recensioni verificate</div>
-          </div>
-        </div>
-        <div class="bars">
-          <div class="bar-row"><span>5★</span><div class="bar-track"><div class="bar-fill" style="width:86%;"></div></div><span>32</span></div>
-          <div class="bar-row"><span>4★</span><div class="bar-track"><div class="bar-fill" style="width:11%;"></div></div><span>4</span></div>
-          <div class="bar-row"><span>≤3★</span><div class="bar-track"><div class="bar-fill" style="width:0%;"></div></div><span>0</span></div>
-        </div>
-        <p class="rating-source" id="ratingSource">Fonte: Treatwell — profilo Dream Salon Carpi</p>
-        <div class="theme-tags">
-          <span>Ambiente accogliente</span>
-          <span>Personale gentile e preparato</span>
-          <span>Clima familiare</span>
-          <span>Risultato curato</span>
-        </div>
-      </div>
-      <div class="breakdown-grid" id="breakdownGrid">
-        <div class="bd-card">
-          <div class="bd-score">5,0</div>
-          <div class="bd-label">Colore / Colpi di sole</div>
-        </div>
-        <div class="bd-card">
-          <div class="bd-score">5,0</div>
-          <div class="bd-label">Taglio donna</div>
-        </div>
-        <div class="bd-card">
-          <div class="bd-score">5,0</div>
-          <div class="bd-label">Taglio uomo</div>
-        </div>
-        <div class="bd-card">
-          <div class="bd-score">4,8</div>
-          <div class="bd-label">Piega</div>
-        </div>
-      </div>
+    <p class="cristina-bio">
+      Ha affiancato brand stilisti di grande rilievo, sviluppando un occhio critico e creativo. Si aggiorna costantemente sulle ultime tendenze e sui prodotti più innovativi.
+    </p>
+  </div>
+</section>
+
+<!-- ============ SERVIZI ============ -->
+<section class="servizi-section" id="servizi">
+  <div class="srv-header reveal">
+    <div>
+      <p class="srv-tag">Cosa facciamo</p>
+      <h2 class="srv-title">I nostri <em>servizi</em>.</h2>
+    </div>
+    <a href="servizi.html" class="srv-cta-link">Vedi tutti →</a>
+  </div>
+  <div class="srv-list reveal">
+    <div class="srv-row"><span class="srv-row-num">01</span><span class="srv-row-name">Consulenza</span><span class="srv-row-cat">Base</span></div>
+    <div class="srv-row"><span class="srv-row-num">02</span><span class="srv-row-name">Taglio</span><span class="srv-row-cat">Taglio</span></div>
+    <div class="srv-row"><span class="srv-row-num">03</span><span class="srv-row-name">Piega</span><span class="srv-row-cat">Styling</span></div>
+    <div class="srv-row"><span class="srv-row-num">04</span><span class="srv-row-name">Colore</span><span class="srv-row-cat">Colore</span></div>
+    <div class="srv-row"><span class="srv-row-num">05</span><span class="srv-row-name">Demi Permanente</span><span class="srv-row-cat">Colore</span></div>
+    <div class="srv-row"><span class="srv-row-num">06</span><span class="srv-row-name">Elumen</span><span class="srv-row-cat">Colore</span></div>
+    <div class="srv-row"><span class="srv-row-num">07</span><span class="srv-row-name">Colpi di Luce</span><span class="srv-row-cat">Colore</span></div>
+    <div class="srv-row"><span class="srv-row-num">08</span><span class="srv-row-name">Effetti Moda</span><span class="srv-row-cat">Colore</span></div>
+    <div class="srv-row"><span class="srv-row-num">09</span><span class="srv-row-name">Ondulazione</span><span class="srv-row-cat">Styling</span></div>
+    <div class="srv-row"><span class="srv-row-num">10</span><span class="srv-row-name">Trattamenti Cute</span><span class="srv-row-cat">Trattamenti</span></div>
+    <div class="srv-row"><span class="srv-row-num">11</span><span class="srv-row-name">Trattamenti Lunghezze</span><span class="srv-row-cat">Trattamenti</span></div>
+    <div class="srv-row"><span class="srv-row-num">12</span><span class="srv-row-name">Kerasilk — 100% vegano</span><span class="srv-row-cat">Trattamenti</span></div>
+  </div>
+</section>
+
+<!-- ============ BRAND STRIP ============ -->
+<div class="brand-strip reveal">
+  <span class="brand-label">I brand del salone</span>
+  <div class="brand-divider"></div>
+  <div>
+    <div class="brand-name">Kemon</div>
+    <div class="brand-desc">Colorazioni bio, senza ammoniaca</div>
+  </div>
+  <div class="brand-divider"></div>
+  <div>
+    <div class="brand-name">Davines</div>
+    <div class="brand-desc">Prodotti per il mantenimento — made in Italy</div>
+  </div>
+</div>
+
+<!-- ============ RATING ============ -->
+<section class="rating-section">
+  <div class="rating-big-num reveal">4,9</div>
+  <div class="reveal">
+    <div class="rating-stars">★★★★★</div>
+    <div class="rating-label">37 recensioni verificate — Treatwell</div>
+    <div class="rating-tags">
+      <span class="rating-tag">Ambiente accogliente</span>
+      <span class="rating-tag">Clima familiare</span>
+      <span class="rating-tag">Risultato curato</span>
+      <span class="rating-tag">Personale preparato</span>
     </div>
   </div>
 </section>
 
 <!-- ============ CTA FINALE ============ -->
-<section class="final-cta">
-  <div class="wrap">
-    <p class="eyebrow">Prenota</p>
-    <h2>La tua immagine merita più di un taglio a caso.</h2>
-    <div class="btn-row">
-      <a href="tel:059640544" class="btn btn-primary" id="finalCta"><span id="finalCtaText"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg> Chiama 059 640544</span></a>
-      <a href="mailto:dreamsalon2012@libero.it" class="btn btn-outline">Scrivi una email</a>
-      <span class="btn btn-outline" id="freshaLink" style="display:none; cursor:pointer;" onclick="if(this.dataset.href) window.location.href=this.dataset.href">Prenota su Fresha</span>
-    </div>
+<section class="cta-final">
+  <div class="cta-final-text reveal">
+    <p class="cta-tag">Prenota</p>
+    <h2 class="cta-headline">Vieni a<br>trovarci.</h2>
+  </div>
+  <div class="cta-actions reveal">
+    <a href="tel:059640544" class="btn-cta-primary" id="finalCta">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      059 640544
+    </a>
+    <a href="mailto:dreamsalon2012@libero.it" class="btn-cta-ghost">dreamsalon2012@libero.it</a>
+    <span class="btn-cta-ghost" id="freshaLink" style="display:none; cursor:pointer;" onclick="if(this.dataset.href) window.location.href=this.dataset.href">Prenota online</span>
   </div>
 </section>
 
 <!-- ============ FOOTER ============ -->
 <footer>
-  <div class="wrap">
-    <div class="footer-top">
-      <div>
-        <div class="footer-logo">Dream Salon<span style="color:var(--brass);">.</span></div>
-        <p style="max-width:260px; margin-top:14px; font-size:13px;">Via Cuneo, 5 — 41012 Carpi (MO)<br>P.IVA 03461270369</p>
-      </div>
-      <div class="footer-cols">
-        <div class="footer-col">
-          <h4>Naviga</h4>
-          <a href="index.html#consulenza">Il metodo</a>
-          <a href="servizi.html">Servizi</a>
-          <a href="team.html">Team</a>
-          <a href="contatti.html">Contatti</a>
-        </div>
-        <div class="footer-col">
-          <h4>Contatti</h4>
-          <a href="tel:059640544" id="footerPhone"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg> 059 640544</a>
-          <a href="mailto:dreamsalon2012@libero.it">dreamsalon2012@libero.it</a>
-          <p>Via Cuneo, 5 — Carpi (MO)</p>
-        </div>
-        <div class="footer-col">
-          <h4>Sui social</h4>
-          <span class="social-link disabled" id="footerFacebook" aria-disabled="true">Facebook — da collegare</span>
-          <span class="social-link disabled" id="footerInstagram" aria-disabled="true">Instagram — da collegare</span>
-        </div>
-      </div>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand-name">Dream Salon<span>.</span></div>
+      <p class="footer-sub">Via Cuneo, 5 — 41012 Carpi (MO)<br>P.IVA 03461270369</p>
     </div>
-
-
-
-    <div class="footer-bottom">
-      <span>© 2026 Dream Salon di Guanci Cristina &amp; C. sas — P.IVA 03461270369</span>
+    <div class="footer-col">
+      <div class="footer-col-title">Naviga</div>
+      <a href="servizi.html">Servizi</a>
+      <a href="team.html">Team</a>
+      <a href="contatti.html">Contatti</a>
     </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Contatti</div>
+      <a href="tel:059640544" id="footerPhone">059 640544</a>
+      <a href="mailto:dreamsalon2012@libero.it">dreamsalon2012@libero.it</a>
+      <span class="social-link disabled" id="footerFacebook">Facebook</span>
+      <span class="social-link disabled" id="footerInstagram">Instagram</span>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © 2026 Dream Salon di Guanci Cristina &amp; C. sas — P.IVA 03461270369
   </div>
 </footer>
 
@@ -311,6 +879,3 @@
 <script src="site.js"></script>
 </body>
 </html>
-
-
-
