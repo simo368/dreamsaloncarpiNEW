@@ -228,6 +228,51 @@
   color: var(--ink);
   font-weight: 400;
 }
+.manifesto-cta {
+  margin-top: 36px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.btn-metodo {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 30px;
+  background: var(--anthracite);
+  color: var(--paper);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-weight: 500;
+  border: 1px solid var(--anthracite);
+  transition: all 0.28s ease;
+  white-space: nowrap;
+}
+.btn-metodo svg {
+  transition: transform 0.25s ease;
+  flex-shrink: 0;
+}
+.btn-metodo:hover {
+  background: var(--brass);
+  border-color: var(--brass);
+  color: var(--anthracite);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(176,138,78,0.22);
+}
+.btn-metodo:hover svg {
+  transform: translateX(4px);
+}
+.manifesto-cta-note {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
+  opacity: 0.75;
+}
 
 /* =====================================================
    CRISTINA — la protagonista
@@ -660,6 +705,8 @@ footer {
   .cta-actions { flex-direction: column; }
   .footer-grid { grid-template-columns: 1fr; gap: 36px; }
   .rating-big-num { font-size: 100px; }
+  .manifesto-cta { flex-direction: column; align-items: flex-start; gap: 14px; }
+  .btn-metodo { width: 100%; justify-content: center; }
 }
 
 </style>
@@ -674,6 +721,7 @@ footer {
       <span></span><span></span><span></span>
     </button>
     <nav class="nav-links" id="navLinks">
+      <a href="#consulenza">Il metodo</a>
       <a href="servizi.html">Servizi</a>
       <a href="team.html">Team</a>
       <a href="contatti.html">Contatti</a>
@@ -721,7 +769,7 @@ footer {
 <!-- ============ MANIFESTO ============ -->
 <section class="manifesto" id="consulenza">
   <div class="manifesto-left reveal">
-    <p class="manifesto-tag">Il salone</p>
+    <p class="manifesto-tag">Il metodo</p>
     <h2 class="manifesto-headline">
       Non esistono<br>proposte <em>standard</em>.
     </h2>
@@ -733,20 +781,27 @@ footer {
     <div class="manifesto-values">
       <div class="mv-item">
         <span class="mv-num">01</span>
-        <span class="mv-text">Consulenza d'immagine personalizzata</span>
+        <span class="mv-text">Consulenza d'immagine e ascolto delle esigenze</span>
       </div>
       <div class="mv-item">
         <span class="mv-num">02</span>
-        <span class="mv-text">Colore senza ammoniaca — Velian Complex</span>
+        <span class="mv-text">Analisi della morfologia del viso e proporzioni</span>
       </div>
       <div class="mv-item">
         <span class="mv-num">03</span>
-        <span class="mv-text">Taglio sartoriale sulla morfologia del viso</span>
+        <span class="mv-text">Studio cromatico dell'incarnato e armonia dei toni</span>
       </div>
       <div class="mv-item">
         <span class="mv-num">04</span>
-        <span class="mv-text">Etica e trasparenza nel servizio</span>
+        <span class="mv-text">Progetto su misura costruito sulla tua unicità</span>
       </div>
+    </div>
+    <div class="manifesto-cta">
+      <a href="servizi.html" class="btn-metodo" id="btnMetodoServizi">
+        <span>Scopri tutti i servizi</span>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <span class="manifesto-cta-note">Listino completo e trattamenti dedicati</span>
     </div>
   </div>
 </section>
@@ -858,6 +913,7 @@ footer {
     </div>
     <div class="footer-col">
       <div class="footer-col-title">Naviga</div>
+      <a href="#consulenza">Il metodo</a>
       <a href="servizi.html">Servizi</a>
       <a href="team.html">Team</a>
       <a href="contatti.html">Contatti</a>
