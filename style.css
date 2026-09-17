@@ -402,8 +402,11 @@
     .nav-toggle span{background:var(--paper) !important;}
     header.site-nav.scrolled .nav-toggle span{background:var(--ink) !important;}
     .hero{padding-top:100px;}
-    .hero-meta{gap:16px;}
-    .header-row{margin-bottom:36px;}
+    .hero-meta{gap:16px;flex-wrap:wrap;}
+    .hero h1{font-size:clamp(32px,9vw,52px);}
+    .hero-sub{font-size:15px;}
+    .header-row{margin-bottom:36px;flex-direction:column;align-items:flex-start;gap:16px;}
+    .header-row .lede{max-width:100%;}
     .services-grid{grid-template-columns:1fr;}
     .expertise-grid{gap:30px;}
     .gallery-grid{grid-template-columns:1fr;grid-template-rows:auto;}
@@ -413,8 +416,12 @@
     .contact-info,.contact-hours{padding:38px 26px;}
     .confirm-box ul{columns:1;}
     .footer-top{flex-direction:column;gap:30px;}
-    .section{padding:76px 0;}
-    .final-cta{padding:90px 0;}
+    .section{padding:64px 0;}
+    .section-tight{padding:48px 0;}
+    .final-cta{padding:80px 0;}
+    .value-grid{gap:36px;}
+    .value-text p{font-size:15px;}
+    .consult-card{padding:28px 20px 24px;}
   }
 
   /* ---------- SKELETON ---------- */

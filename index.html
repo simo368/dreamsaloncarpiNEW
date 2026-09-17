@@ -83,9 +83,9 @@
 /* Titolo enorme */
 .hero-display {
   font-family: 'Fraunces', serif;
-  font-size: clamp(52px, 9vw, 120px);
+  font-size: clamp(44px, 9vw, 120px);
   font-weight: 300;
-  line-height: 0.95;
+  line-height: 1.0;
   color: var(--paper);
   letter-spacing: -0.02em;
   margin: 0 0 48px;
@@ -153,10 +153,10 @@
 ===================================================== */
 .manifesto {
   background: var(--cream);
-  padding: clamp(80px,10vw,140px) clamp(28px,6vw,80px);
+  padding: clamp(60px,8vw,140px) clamp(24px,5vw,80px);
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 80px;
+  gap: 60px;
   align-items: start;
 }
 .manifesto-left {}
@@ -192,7 +192,7 @@
 }
 
 .manifesto-right {
-  padding-top: clamp(0px, 4vw, 60px);
+  padding-top: clamp(0px, 2vw, 40px);
 }
 .manifesto-quote {
   font-family: 'Fraunces', serif;
@@ -519,7 +519,7 @@
 }
 .rating-big-num {
   font-family: 'Fraunces', serif;
-  font-size: clamp(100px, 16vw, 180px);
+  font-size: clamp(80px, 14vw, 180px);
   font-weight: 300;
   color: var(--ink);
   line-height: 0.85;
@@ -686,28 +686,40 @@ footer {
    RESPONSIVE
 ===================================================== */
 @media (max-width: 980px) {
-  .manifesto { grid-template-columns: 1fr; gap: 48px; }
+  .manifesto { grid-template-columns: 1fr; gap: 40px; }
+  .manifesto-right { padding-top: 0; }
   .cristina { grid-template-columns: 1fr; }
   .cristina-visual { min-height: 220px; }
   .rating-section { grid-template-columns: 1fr; gap: 32px; }
-  .cta-final { grid-template-columns: 1fr; }
+  .cta-final { grid-template-columns: 1fr; gap: 40px; }
   .cta-actions { align-items: flex-start; flex-direction: row; flex-wrap: wrap; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
+  .hero-display { font-size: clamp(40px, 7vw, 100px); }
 }
 @media (max-width: 640px) {
   .hero-bar { grid-template-columns: 1fr; }
   .hero-bar-right { border-left: none; border-top: 1px solid var(--line-light); }
-  .hero-bar-left { gap: 24px; }
+  .hero-bar-left { gap: 20px; flex-wrap: wrap; }
+  .hero-display { font-size: clamp(38px, 10vw, 64px); line-height: 1.02; margin: 0 0 32px; }
   .cristina-facts { grid-template-columns: 1fr 1fr; }
   .srv-row { grid-template-columns: 36px 1fr; }
   .srv-row-cat { display: none; }
-  .brand-strip { gap: 28px; }
-  .cta-final { grid-template-columns: 1fr; }
-  .cta-actions { flex-direction: column; }
+  .brand-strip { gap: 20px; padding: 40px clamp(20px,5vw,60px); flex-wrap: wrap; }
+  .brand-name { font-size: 20px; }
+  .brand-desc { font-size: 11.5px; max-width: 160px; }
+  .cta-final { grid-template-columns: 1fr; gap: 28px; padding: clamp(60px,8vw,100px) clamp(20px,5vw,60px); }
+  .cta-actions { flex-direction: column; align-items: stretch; }
+  .btn-cta-primary, .btn-cta-ghost { text-align: center; justify-content: center; }
   .footer-grid { grid-template-columns: 1fr; gap: 36px; }
-  .rating-big-num { font-size: 100px; }
+  .rating-big-num { font-size: clamp(72px, 20vw, 100px); }
+  .rating-section { padding: clamp(56px,8vw,100px) clamp(20px,5vw,60px); }
+  .manifesto { padding: clamp(48px,8vw,80px) clamp(20px,5vw,40px); gap: 32px; }
+  .manifesto-headline { font-size: clamp(30px, 8vw, 44px); }
   .manifesto-cta { flex-direction: column; align-items: flex-start; gap: 14px; }
   .btn-metodo { width: 100%; justify-content: center; }
+  .manifesto-quote { font-size: 16px; margin-bottom: 32px; }
+  .servizi-section { padding: clamp(48px,8vw,80px) clamp(20px,5vw,40px); }
+  .srv-header { margin-bottom: 36px; }
 }
 
 </style>
