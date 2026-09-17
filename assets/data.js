@@ -23,7 +23,7 @@ const GID = {
   Services: 1888300907,  // Sostituisci con il GID del tab "Services"
   Team: 308563470,      // Sostituisci con il GID del tab "Team"
   Reviews: 1420541429,   // Sostituisci con il GID del tab "Reviews"
-  Gallery: 0,           // TODO: sostituisci con il GID reale del tab "Gallery"
+  Gallery: 2090924762,  // GID tab "Gallery"
                         // Struttura colonne: id | image_url | title | alt | category | order | visible | featured
 };
 
