@@ -30,7 +30,7 @@
   h1,h2,h3,h4{
     font-family:'Fraunces',serif;
     font-weight:500;
-    line-height:1.08;
+    line-height:1.2;
     margin:0;
     letter-spacing:-0.01em;
   }
@@ -240,6 +240,7 @@
   .packages{margin-top:1px;display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-top:none;}
   .package-card{background:var(--forest);color:var(--cream);padding:30px;}
   .package-card .eyebrow{color:var(--brass-light);margin-bottom:12px;}
+  .package-card h3{margin-bottom:10px;line-height:1.25;}
   .package-card p{font-size:14.5px;line-height:1.6;color:rgba(240,232,237,0.85);}
   .package-card .dur{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--brass-light);margin-top:14px;display:block;}
 
@@ -288,15 +289,15 @@
   }
   .avatar span{font-family:'Fraunces',serif;font-size:64px;color:var(--brass-light);font-style:italic;}
   .avatar::after{content:"";position:absolute;inset:0;border:1px solid rgba(240,232,237,0.15);}
-  .team-card h3{font-size:21px;margin-bottom:4px;}
-  .team-card .role{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--brass);text-transform:uppercase;letter-spacing:.06em;}
+  .team-card h3{font-size:21px;margin-bottom:6px;line-height:1.2;}
+  .team-card .role{display:block;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--brass);text-transform:uppercase;letter-spacing:.06em;margin-top:2px;}
   .team-card p.bio{font-size:13.5px;color:var(--ink-soft);margin-top:12px;line-height:1.6;}
   .tbc{font-size:11px;color:var(--sage);font-family:'JetBrains Mono',monospace;margin-top:8px;display:inline-block;}
 
   /* ---------- SOCIAL PROOF ---------- */
   .proof-wrap{display:grid;grid-template-columns:0.85fr 1.15fr;gap:70px;align-items:center;}
   .rating-big{display:flex;align-items:flex-end;gap:18px;}
-  .rating-big .num{font-family:'Fraunces',serif;font-size:96px;line-height:.85;font-weight:500;}
+  .rating-big .num{font-family:'Fraunces',serif;font-size:96px;line-height:1.0;font-weight:500;}
   .rating-big .stars{color:var(--brass);font-size:20px;letter-spacing:3px;margin-bottom:10px;}
   .rating-big .count{font-size:13.5px;color:var(--ink-soft);margin-bottom:14px;}
   .rating-source{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--sage);letter-spacing:.06em;text-transform:uppercase;margin-top:18px;}

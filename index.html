@@ -83,12 +83,12 @@
 /* Titolo enorme */
 .hero-display {
   font-family: 'Fraunces', serif;
-  font-size: clamp(44px, 9vw, 120px);
+  font-size: clamp(42px, 8.5vw, 110px);
   font-weight: 300;
-  line-height: 1.0;
+  line-height: 1.15;
   color: var(--paper);
   letter-spacing: -0.02em;
-  margin: 0 0 48px;
+  margin: 0 0 44px;
 }
 .hero-display em {
   font-style: italic;
@@ -166,7 +166,7 @@
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--brass);
-  margin-bottom: 32px;
+  margin-bottom: 24px;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -179,9 +179,9 @@
 }
 .manifesto-headline {
   font-family: 'Fraunces', serif;
-  font-size: clamp(36px, 5vw, 58px);
+  font-size: clamp(34px, 4.5vw, 54px);
   font-weight: 400;
-  line-height: 1.05;
+  line-height: 1.2;
   color: var(--ink);
   letter-spacing: -0.02em;
   margin: 0;
@@ -330,15 +330,16 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  margin: 0 0 16px 0;
 }
-.cristina-tag::before { content: ""; width: 22px; height: 1px; background: var(--brass); }
+.cristina-tag::before { content: ""; width: 22px; height: 1px; background: var(--brass); flex-shrink: 0; }
 .cristina-name {
   font-family: 'Fraunces', serif;
   font-size: clamp(32px, 4vw, 52px);
   font-weight: 400;
   color: var(--paper);
-  line-height: 1.05;
-  margin: 0;
+  line-height: 1.2;
+  margin: 0 0 14px 0;
 }
 .cristina-role {
   font-family: 'JetBrains Mono', monospace;
@@ -346,7 +347,8 @@
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--brass);
-  margin-top: -12px;
+  margin: 0;
+  line-height: 1.4;
 }
 .cristina-facts {
   display: grid;
@@ -413,7 +415,7 @@
   font-weight: 400;
   color: var(--ink);
   margin: 0;
-  line-height: 1.05;
+  line-height: 1.2;
 }
 .srv-title em { font-style: italic; color: var(--brass); }
 .srv-cta-link {
@@ -519,10 +521,10 @@
 }
 .rating-big-num {
   font-family: 'Fraunces', serif;
-  font-size: clamp(80px, 14vw, 180px);
+  font-size: clamp(72px, 12vw, 150px);
   font-weight: 300;
   color: var(--ink);
-  line-height: 0.85;
+  line-height: 1.0;
   letter-spacing: -0.04em;
 }
 .rating-right {}
@@ -583,7 +585,7 @@
   font-size: clamp(32px, 5vw, 62px);
   font-weight: 400;
   color: var(--paper);
-  line-height: 1.05;
+  line-height: 1.2;
   margin: 0;
 }
 .cta-headline em { font-style: italic; color: var(--brass-light); }
@@ -694,27 +696,31 @@ footer {
   .cta-final { grid-template-columns: 1fr; gap: 40px; }
   .cta-actions { align-items: flex-start; flex-direction: row; flex-wrap: wrap; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
-  .hero-display { font-size: clamp(40px, 7vw, 100px); }
+  .hero-display { font-size: clamp(38px, 7.5vw, 84px); line-height: 1.15; }
 }
 @media (max-width: 640px) {
   .hero-bar { grid-template-columns: 1fr; }
   .hero-bar-right { border-left: none; border-top: 1px solid var(--line-light); }
   .hero-bar-left { gap: 20px; flex-wrap: wrap; }
-  .hero-display { font-size: clamp(38px, 10vw, 64px); line-height: 1.02; margin: 0 0 32px; }
+  .hero-display { font-size: clamp(32px, 8.5vw, 52px); line-height: 1.15; margin: 0 0 28px; }
+  .cristina-text { padding: clamp(36px, 7vw, 56px) clamp(20px, 5vw, 36px); gap: 22px; }
+  .cristina-name { font-size: clamp(28px, 8vw, 42px); line-height: 1.2; margin: 0 0 12px 0; }
+  .cristina-tag { margin-bottom: 12px; }
   .cristina-facts { grid-template-columns: 1fr 1fr; }
   .srv-row { grid-template-columns: 36px 1fr; }
   .srv-row-cat { display: none; }
-  .brand-strip { gap: 20px; padding: 40px clamp(20px,5vw,60px); flex-wrap: wrap; }
+  .brand-strip { gap: 16px; padding: 36px clamp(20px,5vw,40px); flex-direction: column; align-items: flex-start; }
+  .brand-divider { display: none; }
   .brand-name { font-size: 20px; }
-  .brand-desc { font-size: 11.5px; max-width: 160px; }
+  .brand-desc { font-size: 11.5px; max-width: 100%; }
   .cta-final { grid-template-columns: 1fr; gap: 28px; padding: clamp(60px,8vw,100px) clamp(20px,5vw,60px); }
   .cta-actions { flex-direction: column; align-items: stretch; }
   .btn-cta-primary, .btn-cta-ghost { text-align: center; justify-content: center; }
   .footer-grid { grid-template-columns: 1fr; gap: 36px; }
-  .rating-big-num { font-size: clamp(72px, 20vw, 100px); }
+  .rating-big-num { font-size: clamp(64px, 18vw, 92px); line-height: 1.0; }
   .rating-section { padding: clamp(56px,8vw,100px) clamp(20px,5vw,60px); }
   .manifesto { padding: clamp(48px,8vw,80px) clamp(20px,5vw,40px); gap: 32px; }
-  .manifesto-headline { font-size: clamp(30px, 8vw, 44px); }
+  .manifesto-headline { font-size: clamp(28px, 7.5vw, 40px); line-height: 1.2; }
   .manifesto-cta { flex-direction: column; align-items: flex-start; gap: 14px; }
   .btn-metodo { width: 100%; justify-content: center; }
   .manifesto-quote { font-size: 16px; margin-bottom: 32px; }
