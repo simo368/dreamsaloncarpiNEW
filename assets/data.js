@@ -6,7 +6,7 @@
 // usa automaticamente i dati di fallback identici alla demo attuale.
 //
 // CONFIGURAZIONE:
-//   1. Crea un Google Sheet con 5 tab: Settings, Hours, Services, Team, Reviews
+//   1. Crea un Google Sheet con 6 tab: Settings, Hours, Services, Team, Reviews, Gallery
 //   2. Imposta la condivisione su "Chiunque con il link può visualizzare"
 //   3. Sostituisci ID_SPREADSHEET con l'ID del foglio (es: 1aBcD...)
 //   4. Sostituisci i GID con quelli reali dei tab (visibili nell'URL)
@@ -23,6 +23,8 @@ const GID = {
   Services: 1888300907,  // Sostituisci con il GID del tab "Services"
   Team: 308563470,      // Sostituisci con il GID del tab "Team"
   Reviews: 1420541429,   // Sostituisci con il GID del tab "Reviews"
+  Gallery: 0,           // TODO: sostituisci con il GID reale del tab "Gallery"
+                        // Struttura colonne: id | image_url | title | alt | category | order | visible | featured
 };
 
 // ----------------------------------------------------------------------
@@ -129,29 +131,27 @@ const FALLBACK = {
     { day: "Martedì", text: "09:00–16:00", confirm: "false" },
     { day: "Mercoledì", text: "09:00–16:00", confirm: "false" },
     { day: "Giovedì", text: "09:00–20:00", confirm: "false" },
-    { day: "Venerdì", text: "09:00–17:30", confirm: "false" },
+    { day: "Venerdì", text: "09:00–17:00", confirm: "false" },
     { day: "Sabato", text: "08:00–15:00", confirm: "false" },
     { day: "Domenica", text: "Chiuso", closed: "true", confirm: "false" },
   ],
   services: [
     { name: "Consulenza", description: "Punto fondamentale per un servizio accurato e personalizzato.", duration: "", price: "", category: "Base", is_package: "false" },
-    { name: "Piega", description: "Varie tecniche di styling — ferri e piastre inclusi — per dare forma e volume ai tuoi capelli.", duration: "", price: "", category: "Styling", is_package: "false" },
-    { name: "Taglio", description: "Creiamo il tuo taglio analizzando la morfologia del viso e del capello.", duration: "", price: "", category: "Taglio", is_package: "false" },
+    { name: "Piega", description: "Creiamo tecniche di styling utilizzando anche ferri e piastre.", duration: "", price: "", category: "Styling", is_package: "false" },
     { name: "Colore", description: "Colorazione senza ammoniaca con principi attivi Velian Complex, per colori brillanti e rispettosi della fibra.", duration: "", price: "", category: "Colore", is_package: "false" },
     { name: "Demi Permanente", description: "Texture in gel per creare giochi di profondità e luminosità personalizzati.", duration: "", price: "", category: "Colore", is_package: "false" },
     { name: "Elumen", description: "Colorazione diretta senza ossigeno per mascherare i capelli bianchi con un effetto naturale.", duration: "", price: "", category: "Colore", is_package: "false" },
     { name: "Colpi di Luce", description: "Servizio personalizzato di schiaritura, adatto a ogni tipo di capello e incarnato.", duration: "", price: "", category: "Colore", is_package: "false" },
     { name: "Effetti Moda", description: "Sfumature naturali e personalizzate per soddisfare le esigenze di ogni cliente.", duration: "", price: "", category: "Colore", is_package: "false" },
-    { name: "Ondulazione", description: "Crea il tuo styling curly con onde o ricci definiti e duraturi.", duration: "", price: "", category: "Styling", is_package: "false" },
-    { name: "Trattamenti Cute", description: "Trattamenti specifici per ogni disfunzione del cuoio capelluto.", duration: "", price: "", category: "Trattamenti", is_package: "false" },
+    { name: "Trattamenti Cute", description: "Trattamenti per il cuoio capelluto.", duration: "", price: "", category: "Trattamenti", is_package: "false" },
     { name: "Trattamenti Lunghezze", description: "Rituali benessere personalizzati per ogni tipo di capello: lucentezza e corposità garantite.", duration: "", price: "", category: "Trattamenti", is_package: "false" },
     { name: "Kerasilk", description: "Trattamento disciplinante per capelli ondulati, ricci e crespi. 100% vegano.", duration: "", price: "", category: "Trattamenti", is_package: "false" },
   ],
   packages: [],
   team: [
     { name: "Cristina Guanci", role: "Titolare", bio: "Più di venticinque anni di carriera, con un percorso accanto a brand stilisti di grande rilievo. Guida la consulenza d'immagine e il taglio sartoriale: ascolta, osserva e costruisce un look personalizzato per ogni cliente.", confirmed: "true", photo_url: "" },
-    { name: "Bianca Diana", role: "Collaboratrice", bio: "Parte del team Dream Salon.", confirmed: "true", photo_url: "" },
-    { name: "Monia", role: "Collaboratrice", bio: "Parte del team Dream Salon.", confirmed: "true", photo_url: "" },
+    { name: "Martina", role: "Collaboratrice", bio: "Lo styling è il suo cavallo di battaglia, molto abile con onde e lisci perfetti.", confirmed: "true", photo_url: "" },
+    { name: "Monia", role: "Collaboratrice", bio: "Esuberante. Ricopre ogni mansione in salone. Specializzata in trattamenti olistici.", confirmed: "true", photo_url: "" },
   ],
   reviews: [
     { label: "Colore / Colpi di sole", score: "5,0" },
@@ -159,6 +159,13 @@ const FALLBACK = {
     { label: "Taglio uomo", score: "5,0" },
     { label: "Piega", score: "4,8" },
   ],
+  // Le fotografie della galleria vengono caricate dal tab "Gallery" su Google Sheets.
+  // Struttura attesa: { id, image_url, title, alt, category, order, visible, featured }
+  // image_url: accetta link Google Drive (formato /file/d/ID/view) — normalizzati automaticamente.
+  // visible: TRUE/FALSE — se FALSE la foto viene nascosta.
+  // featured: TRUE/FALSE — se TRUE la foto riceve layout hero (più grande).
+  // order: numero — ordine di visualizzazione (ascendente).
+  gallery: [],
 };
 
 // ----------------------------------------------------------------------
@@ -193,9 +200,9 @@ let store = null;
 async function loadData() {
   if (store) return store;
 
-  const tabs = ['Settings', 'Hours', 'Services', 'Team', 'Reviews'];
+  const tabs = ['Settings', 'Hours', 'Services', 'Team', 'Reviews', 'Gallery'];
   const results = await Promise.all(tabs.map(tab => fetchTab(tab)));
-  const [settingsRaw, hours, services, team, reviews] = results;
+  const [settingsRaw, hours, services, team, reviews, galleryRaw] = results;
 
   // Settings: converti key/value o righe in oggetto in modo ultra-flessibile
   let settings = { ...FALLBACK.settings };
@@ -217,6 +224,11 @@ async function loadData() {
   const servicesList = allServices.filter(s => s.is_package !== 'true');
   const packagesList = allServices.filter(s => s.is_package === 'true');
 
+  // Gallery: filtra solo righe con image_url valido (header row check)
+  const galleryList = galleryRaw
+    ? galleryRaw.filter(g => g && typeof g === 'object' && 'image_url' in g)
+    : null;
+
   store = {
     settings: settings,
     hours: hours || FALLBACK.hours,
@@ -224,6 +236,7 @@ async function loadData() {
     packages: packagesList,
     team: team || FALLBACK.team,
     reviews: reviews || FALLBACK.reviews,
+    gallery: galleryList || FALLBACK.gallery,
   };
 
   console.log('[data] Dati caricati:', store);
