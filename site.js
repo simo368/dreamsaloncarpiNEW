@@ -51,9 +51,18 @@ function renderHero(data) {
   const headline = document.getElementById('heroHeadline');
   const sub = document.getElementById('heroSub');
   const meta = document.getElementById('heroMeta');
+  const heroBg = document.getElementById('heroBg');
 
   if (headline && settings.hero_headline) headline.innerHTML = settings.hero_headline;
   if (sub && settings.hero_sub) sub.textContent = settings.hero_sub;
+
+  // Aggiorna foto hero da Sheets (chiave: hero_bg_url)
+  if (heroBg && settings.hero_bg_url && settings.hero_bg_url.trim()) {
+    const bgUrl = normalizeDriveUrl(settings.hero_bg_url.trim(), 'w1920');
+    if (bgUrl) {
+      heroBg.style.backgroundImage = `url('${bgUrl}')`;
+    }
+  }
 
   if (meta) {
     const score = settings.rating_score || '4,9';
