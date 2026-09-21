@@ -49,12 +49,10 @@ function renderHero(data) {
   if (!settings) return;
 
   const headline = document.getElementById('heroHeadline');
-  const sub = document.getElementById('heroSub');
-  const meta = document.getElementById('heroMeta');
   const heroBg = document.getElementById('heroBg');
 
+  // Aggiorna titolo hero da Sheets se valorizzato
   if (headline && settings.hero_headline) headline.innerHTML = settings.hero_headline;
-  if (sub && settings.hero_sub) sub.textContent = settings.hero_sub;
 
   // Aggiorna foto hero da Sheets (chiave: hero_bg_url)
   if (heroBg && settings.hero_bg_url && settings.hero_bg_url.trim()) {
@@ -63,19 +61,21 @@ function renderHero(data) {
       heroBg.style.backgroundImage = `url('${bgUrl}')`;
     }
   }
+}
 
-  if (meta) {
-    const score = settings.rating_score || '4,9';
-    const count = settings.rating_count || '37';
-    let treatwellLink = settings.treatwell_url && settings.treatwell_url.trim()
-      ? ` <a href="${settings.treatwell_url}" target="_blank" rel="noopener" style="color:inherit; text-decoration:underline; text-underline-offset:3px;">Treatwell</a>`
-      : ' Treatwell';
-    meta.innerHTML = `
-      <span>★ ${score} / 5 —${treatwellLink}</span>
-      <span>${count} recensioni</span>
-      <span>Trattamenti Davines · Kemon</span>
-    `;
-  }
+// Aggiorna il background della .hero nelle pagine interne (chiave: inner_bg_url in Sheets)
+function renderInnerHero(data) {
+  const settings = data.settings;
+  if (!settings || !settings.inner_bg_url || !settings.inner_bg_url.trim()) return;
+
+  const heroEl = document.querySelector('.hero');
+  if (!heroEl) return;
+
+  const bgUrl = normalizeDriveUrl(settings.inner_bg_url.trim(), 'w1920');
+  if (!bgUrl) return;
+
+  // Mantiene il gradient overlay e applica la foto sotto
+  heroEl.style.background = `linear-gradient(180deg, rgba(22,16,26,0.35) 0%, rgba(22,16,26,0.55) 55%, rgba(22,16,26,0.92) 100%), url('${bgUrl}') center 30%/cover no-repeat`;
 }
 
 function renderServicesList(containerId, list, limit) {
@@ -96,11 +96,16 @@ function renderServicesList(containerId, list, limit) {
   `).join('');
 }
 
+// renderFeaturedServices: la homepage usa una lista statica hardcoded (srv-list).
+// Non esiste un contenitore featuredGrid né servicesGrid nel DOM corrente.
+// I dati da Sheets sono caricati ma la lista statica è già completa e aggiornata.
 function renderFeaturedServices(data) {
-  if (data.services) renderServicesList('featuredGrid', data.services.filter(s => s.is_package !== 'true'), 3);
+  // Nessun aggiornamento DOM necessario — lista servizi è hardcoded in index.html
 }
 
 function renderServices(data) {
+  // La pagina servizi.html usa card statiche hardcoded.
+  // Se in futuro si aggiunge id="servicesGrid", questa funzione si attiva automaticamente.
   if (data.services) renderServicesList('servicesGrid', data.services.filter(s => s.is_package !== 'true'));
 }
 
@@ -135,14 +140,25 @@ function renderTeam(data) {
 }
 
 function renderBreakdown(data) {
+  // breakdownGrid non esiste nella homepage (sezione rating usa struttura .rating-section custom).
+  // Aggiorna il rating score nella sezione se valorizzato da Sheets.
   const grid = document.getElementById('breakdownGrid');
-  if (!grid || !data.reviews) return;
-  grid.innerHTML = data.reviews.map(r => `
-    <div class="bd-card">
-      <div class="bd-score">${r.score}</div>
-      <div class="bd-label">${r.label}</div>
-    </div>
-  `).join('');
+  if (grid && data.reviews) {
+    grid.innerHTML = data.reviews.map(r => `
+      <div class="bd-card">
+        <div class="bd-score">${r.score}</div>
+        <div class="bd-label">${r.label}</div>
+      </div>
+    `).join('');
+  }
+
+  // Aggiorna il numero grande nella rating-section se valorizzato da Sheets
+  if (data.settings) {
+    const ratingBigNum = document.querySelector('.rating-big-num');
+    if (ratingBigNum && data.settings.rating_score) {
+      ratingBigNum.textContent = data.settings.rating_score;
+    }
+  }
 }
 
 function renderHours(data) {
@@ -378,20 +394,9 @@ function renderTreatwellFresha(data) {
   const settings = data.settings;
   if (!settings) return;
 
-  const heroTreatwell = document.getElementById('heroTreatwell');
-  if (heroTreatwell) {
-    heroTreatwell.innerHTML = settings.treatwell_url && settings.treatwell_url.trim()
-      ? `<a href="${settings.treatwell_url}" target="_blank" rel="noopener" style="color:inherit; text-decoration:underline; text-underline-offset:3px;">Treatwell</a>`
-      : 'Treatwell';
-  }
+  // Treatwell rimosso dal sito — nessun elemento heroTreatwell o ratingSource da aggiornare.
 
-  const ratingSource = document.getElementById('ratingSource');
-  if (ratingSource) {
-    ratingSource.innerHTML = settings.treatwell_url && settings.treatwell_url.trim()
-      ? `Fonte: <a href="${settings.treatwell_url}" target="_blank" rel="noopener" style="color:inherit; text-decoration:underline; text-underline-offset:3px;">Treatwell</a> — profilo Dream Salon Carpi`
-      : 'Fonte: Treatwell — profilo Dream Salon Carpi';
-  }
-
+  // Fresha: mostra il pulsante prenota solo se l'URL è configurato in Sheets
   const freshaLink = document.getElementById('freshaLink');
   if (freshaLink) {
     if (settings.fresha_url && settings.fresha_url.trim()) {
@@ -520,13 +525,17 @@ async function init() {
         } else if (page === 'servizi.html') {
           renderServices(data);
           renderPackages(data);
+          renderInnerHero(data);
         } else if (page === 'team.html') {
           renderTeam(data);
+          renderInnerHero(data);
         } else if (page === 'contatti.html') {
           renderContact(data);
           renderHours(data);
+          renderInnerHero(data);
         } else if (page === 'galleria.html') {
           renderGallery(data);
+          renderInnerHero(data);
         }
 
         updateAllPhones(data);

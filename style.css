@@ -116,7 +116,9 @@
     display:flex;
     align-items:flex-end;
     position:relative;
-    background:linear-gradient(180deg, rgba(22,16,26,0.35) 0%, rgba(22,16,26,0.55) 55%, rgba(22,16,26,0.92) 100%), url('https://cdn1.treatwell.net/images/view/v2.i7363715.w1080.h720.xDDF6E4CA/') center 30%/cover no-repeat;
+    background:linear-gradient(180deg, rgba(22,16,26,0.35) 0%, rgba(22,16,26,0.55) 55%, rgba(22,16,26,0.92) 100%), var(--anthracite);
+    /* Foto di sfondo: configurabile da Google Sheets → chiave inner_bg_url nel tab Settings */
+
     padding-top:120px;
   }
   .hero .wrap{padding-bottom:76px; width:100%;}
