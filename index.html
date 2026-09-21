@@ -43,13 +43,14 @@
   overflow: hidden;
 }
 
-/* Immagine sfondo con overlay */
-/* FOTO DA SOSTITUIRE: inserire qui l'URL della fotografia originale fornita dalla cliente */
+/* Immagine sfondo senza gradiente grigio */
 .hero-bg {
   position: absolute;
   inset: 0;
-  /* background: url('INSERIRE_URL_FOTO_ORIGINALE') center/cover no-repeat; */
-  opacity: 0.22;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 1;
 }
 
 .hero-content {
@@ -72,6 +73,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  text-shadow: 0 1px 8px rgba(0,0,0,0.75);
 }
 .hero-loc::before {
   content: "";
@@ -90,6 +92,7 @@
   color: var(--paper);
   letter-spacing: -0.02em;
   margin: 0 0 44px;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.7), 0 1px 4px rgba(0,0,0,0.85);
 }
 .hero-display em {
   font-style: italic;
@@ -104,6 +107,8 @@
   display: grid;
   grid-template-columns: 1fr auto;
   align-items: center;
+  background: rgba(22, 16, 26, 0.65);
+  backdrop-filter: blur(8px);
 }
 .hero-bar-left {
   padding: 24px clamp(28px,6vw,80px);

@@ -116,7 +116,7 @@
     display:flex;
     align-items:flex-end;
     position:relative;
-    background:linear-gradient(180deg, rgba(22,16,26,0.35) 0%, rgba(22,16,26,0.55) 55%, rgba(22,16,26,0.92) 100%), var(--anthracite);
+    background:var(--anthracite);
     /* Foto di sfondo: configurabile da Google Sheets → chiave inner_bg_url nel tab Settings */
 
     padding-top:120px;

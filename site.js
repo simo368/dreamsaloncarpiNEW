@@ -59,23 +59,29 @@ function renderHero(data) {
     const bgUrl = normalizeDriveUrl(settings.hero_bg_url.trim(), 'w1920');
     if (bgUrl) {
       heroBg.style.backgroundImage = `url('${bgUrl}')`;
+      heroBg.style.backgroundSize = 'cover';
+      heroBg.style.backgroundPosition = 'center';
+      heroBg.style.backgroundRepeat = 'no-repeat';
     }
   }
 }
 
-// Aggiorna il background della .hero nelle pagine interne (chiave: inner_bg_url in Sheets)
+// Aggiorna il background della testata nelle pagine interne (chiave: inner_bg_url in Sheets)
 function renderInnerHero(data) {
   const settings = data.settings;
   if (!settings || !settings.inner_bg_url || !settings.inner_bg_url.trim()) return;
 
-  const heroEl = document.querySelector('.hero');
+  const heroEl = document.querySelector('.hero, .page-hero, .section-dark[style*="padding-top"], .section-anthracite[style*="padding-top"]');
   if (!heroEl) return;
 
   const bgUrl = normalizeDriveUrl(settings.inner_bg_url.trim(), 'w1920');
   if (!bgUrl) return;
 
-  // Mantiene il gradient overlay e applica la foto sotto
-  heroEl.style.background = `linear-gradient(180deg, rgba(22,16,26,0.35) 0%, rgba(22,16,26,0.55) 55%, rgba(22,16,26,0.92) 100%), url('${bgUrl}') center 30%/cover no-repeat`;
+  // Nessun gradiente grigio: applica la fotografia pulita
+  heroEl.style.backgroundImage = `url('${bgUrl}')`;
+  heroEl.style.backgroundPosition = 'center 30%';
+  heroEl.style.backgroundSize = 'cover';
+  heroEl.style.backgroundRepeat = 'no-repeat';
 }
 
 function renderServicesList(containerId, list, limit) {
