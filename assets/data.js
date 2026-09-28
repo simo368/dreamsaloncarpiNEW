@@ -139,7 +139,7 @@ const FALLBACK = {
     business_name: "Dream Salon Carpi",
     phone: "+39 059 640544",
     whatsapp: "",
-    email: "dreamsalon2012@libero.it",
+    email: "dreamsaloncarpi@gmail.com",
     address: "Via Cuneo, 5 — 41012 Carpi (MO)",
     maps_query: "Via+Cuneo+5+41012+Carpi+MO",
     treatwell_url: "",
