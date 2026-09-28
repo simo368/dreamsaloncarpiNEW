@@ -179,8 +179,83 @@ function renderHours(data) {
 }
 
 // ----------------------------------------------------------------------
-// GALLERIA — render editoriale + lightbox
+// GALLERIA — render editoriale + LQIP blur-up + lazy loading ottimizzato
 // ----------------------------------------------------------------------
+
+// Retry con backoff esponenziale per immagini che falliscono
+const GAL_MAX_RETRIES = 2;
+window.galRetry = function(img) {
+  const retries = parseInt(img.dataset.retries || '0', 10);
+  if (retries >= GAL_MAX_RETRIES) {
+    const item = img.closest('.gal-item');
+    if (item) item.classList.add('gal-error');
+    img.remove();
+    return;
+  }
+  img.dataset.retries = String(retries + 1);
+  const src = img.getAttribute('src');
+  if (!src) return;
+  const delay = (retries + 1) * 1000;
+  setTimeout(() => {
+    const sep = src.includes('?') ? '&' : '?';
+    img.src = src + sep + '_r=' + Date.now();
+  }, delay);
+};
+
+// Preload <link> per immagini above-the-fold
+function preloadAboveFold(items) {
+  items.forEach(item => {
+    const url = normalizeDriveUrl(item.image_url, 'w1000');
+    if (!url) return;
+    if (document.querySelector('link[rel="preload"][href="' + url + '"]')) return;
+    const link = document.createElement('link');
+    link.rel = 'preload';
+    link.as = 'image';
+    link.href = url;
+    document.head.appendChild(link);
+  });
+}
+
+// Attiva un'immagine lazy: sposta data-* → attributi reali
+function activateImage(img) {
+  if (img.dataset.srcset) {
+    img.setAttribute('srcset', img.dataset.srcset);
+    delete img.dataset.srcset;
+  }
+  if (img.dataset.sizes) {
+    img.setAttribute('sizes', img.dataset.sizes);
+    delete img.dataset.sizes;
+  }
+  if (img.dataset.src) {
+    img.src = img.dataset.src;
+    delete img.dataset.src;
+  }
+}
+
+// IntersectionObserver con buffer 300px per pre-caricare prima del viewport
+function setupGalleryObserver() {
+  const lazyImages = document.querySelectorAll('.gal-item img[data-src]');
+  if (!lazyImages.length) return;
+
+  if (!('IntersectionObserver' in window)) {
+    lazyImages.forEach(img => activateImage(img));
+    return;
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        activateImage(entry.target);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    rootMargin: '300px 0px',
+    threshold: 0
+  });
+
+  lazyImages.forEach(img => observer.observe(img));
+}
 function renderGallery(data) {
   const grid = document.getElementById('galleryGrid');
   const emptyState = document.getElementById('galleryEmpty');
@@ -206,6 +281,9 @@ function renderGallery(data) {
   if (emptyState) emptyState.style.display = 'none';
   grid.style.display = '';
 
+  // Numero di immagini above-the-fold da precaricare eagerly
+  const EAGER_COUNT = 3;
+
   // Ciclo di layout editoriale — varia le dimensioni per ritmo visivo
   // featured=TRUE forza sempre gal-hero (item protagonista)
   const layoutCycle = ['gal-hero', 'gal-std', 'gal-tall', 'gal-std', 'gal-std', 'gal-wide', 'gal-std', 'gal-std'];
@@ -221,44 +299,61 @@ function renderGallery(data) {
       cycleIdx++;
     }
 
-    // Genera URL a dimensioni diverse per srcset responsive
-    // L'endpoint /thumbnail ridimensiona server-side — nessun file originale pesante
-    const srcSm  = normalizeDriveUrl(item.image_url, 'w600');
-    const srcMed = normalizeDriveUrl(item.image_url, 'w1000');
-    const srcLg  = normalizeDriveUrl(item.image_url, 'w1800');
-    // URL per lightbox (alta qualità, caricato solo all'apertura)
-    const srcFull = normalizeDriveUrl(item.image_url, 'w2400');
+    // URL a dimensioni diverse — /thumbnail ridimensiona server-side
+    const srcLqip = normalizeDriveUrl(item.image_url, 'w40');   // LQIP ~1-2KB
+    const srcSm   = normalizeDriveUrl(item.image_url, 'w600');
+    const srcMed  = normalizeDriveUrl(item.image_url, 'w1000');
+    const srcLg   = normalizeDriveUrl(item.image_url, 'w1800');
+    const srcFull = normalizeDriveUrl(item.image_url, 'w2400'); // Lightbox
 
     const alt = (item.alt || item.title || 'Dream Salon Carpi').trim();
-    // Prima immagine: eager (visibile subito), le altre: lazy
-    const isFirst = i === 0;
-    const loading = isFirst ? 'eager' : 'lazy';
-    const decoding = isFirst ? 'auto' : 'async';
+    const isEager = i < EAGER_COUNT;
 
     const caption = item.title
       ? `<span class="gal-caption">${item.title}</span>`
       : '';
 
-    // Determina sizes in base al layout
+    // Sizes per srcset responsive
     let sizes;
     if (cls === 'gal-wide') sizes = '100vw';
     else if (cls === 'gal-hero') sizes = '(max-width:640px) 100vw, 66vw';
-    else if (cls === 'gal-tall') sizes = '(max-width:640px) 50vw, 33vw';
     else sizes = '(max-width:640px) 50vw, 33vw';
 
-    const imgHtml = srcMed
-      ? `<img
-           src="${srcMed}"
-           ${srcSm && srcLg ? `srcset="${srcSm} 600w, ${srcMed} 1000w, ${srcLg} 1800w" sizes="${sizes}"` : ''}
-           alt="${alt}"
-           loading="${loading}"
-           decoding="${decoding}"
-           onerror="this.closest('.gal-item').classList.add('gal-error'); this.remove();"
-         >`
-      : ''; // Nessun URL = placeholder CSS puro (nessuna img rotta)
+    // LQIP come CSS custom property per il blur placeholder
+    const lqipStyle = srcLqip ? `--lqip:url('${srcLqip}')` : '';
+    const srcsetAttr = srcSm && srcLg
+      ? `${srcSm} 600w, ${srcMed} 1000w, ${srcLg} 1800w`
+      : '';
+
+    let imgHtml = '';
+    if (srcMed) {
+      if (isEager) {
+        // Above-the-fold: carica immediatamente
+        imgHtml = `<img
+          src="${srcMed}"
+          ${srcsetAttr ? `srcset="${srcsetAttr}" sizes="${sizes}"` : ''}
+          alt="${alt}"
+          loading="eager"
+          decoding="auto"
+          onload="this.closest('.gal-item').classList.add('gal-loaded')"
+          onerror="galRetry(this)"
+        >`;
+      } else {
+        // Below-the-fold: differito con IntersectionObserver
+        imgHtml = `<img
+          data-src="${srcMed}"
+          ${srcsetAttr ? `data-srcset="${srcsetAttr}" data-sizes="${sizes}"` : ''}
+          alt="${alt}"
+          decoding="async"
+          onload="this.closest('.gal-item').classList.add('gal-loaded')"
+          onerror="galRetry(this)"
+        >`;
+      }
+    }
 
     return `<div
       class="gal-item ${cls}"
+      ${lqipStyle ? `style="${lqipStyle}"` : ''}
       data-src-full="${srcFull}"
       data-alt="${alt.replace(/"/g, '&quot;')}"
       data-title="${(item.title || '').replace(/"/g, '&quot;')}"
@@ -270,6 +365,19 @@ function renderGallery(data) {
       ${caption}
     </div>`;
   }).join('');
+
+  // Gestisci immagini caricate dalla cache del browser prima dell'handler onload
+  grid.querySelectorAll('.gal-item img[src]').forEach(img => {
+    if (img.complete && img.naturalWidth > 0) {
+      img.closest('.gal-item').classList.add('gal-loaded');
+    }
+  });
+
+  // Inietta <link rel="preload"> per le prime immagini above-the-fold
+  preloadAboveFold(items.slice(0, EAGER_COUNT));
+
+  // Attiva IntersectionObserver per le immagini lazy
+  setupGalleryObserver();
 
   // Attiva lightbox dopo che il DOM è aggiornato
   initLightbox();

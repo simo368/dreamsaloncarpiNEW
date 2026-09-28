@@ -23,9 +23,34 @@ const GID = {
   Services: 1888300907,  // Sostituisci con il GID del tab "Services"
   Team: 308563470,      // Sostituisci con il GID del tab "Team"
   Reviews: 1420541429,   // Sostituisci con il GID del tab "Reviews"
-  Gallery: 2090924762,  // GID tab "Gallery"
-                        // Struttura colonne: id | image_url | title | alt | category | order | visible | featured
+  Gallery: 2090924762,           // TODO: sostituisci con il GID reale del tab "Gallery"
+  // Struttura colonne: id | image_url | title | alt | category | order | visible | featured
 };
+
+// ----------------------------------------------------------------------
+// CACHE — sessionStorage per evitare re-fetch nella stessa sessione
+// ----------------------------------------------------------------------
+const CACHE_KEY = 'ds_store_cache';
+const CACHE_TTL = 10 * 60 * 1000; // 10 minuti
+
+function getCachedStore() {
+  try {
+    const raw = sessionStorage.getItem(CACHE_KEY);
+    if (!raw) return null;
+    const { data, ts } = JSON.parse(raw);
+    if (Date.now() - ts > CACHE_TTL) {
+      sessionStorage.removeItem(CACHE_KEY);
+      return null;
+    }
+    return data;
+  } catch { return null; }
+}
+
+function setCacheStore(data) {
+  try {
+    sessionStorage.setItem(CACHE_KEY, JSON.stringify({ data, ts: Date.now() }));
+  } catch (e) { /* quota exceeded — silenzioso */ }
+}
 
 // ----------------------------------------------------------------------
 // CSV Parser minimale — gestisce campi quotati e virgole interne
@@ -125,8 +150,7 @@ const FALLBACK = {
     hero_sub: "Dream Salon è il salone dove Cristina Guanci, con più di venticinque anni di esperienza, costruisce un'immagine su misura: morfologia del viso, colore dell'incarnato, stile personale — prima ancora del taglio.",
     rating_score: "4,9",
     rating_count: "37",
-    hero_bg_url: "",       // Foto sfondo Hero homepage (index.html)
-    inner_bg_url: "",      // Foto sfondo Hero pagine interne (servizi, team, galleria, contatti)
+    hero_bg_url: "",  // Se valorizzato sovrascrive la foto hero di default
   },
   hours: [
     { day: "Lunedì", text: "Chiuso", closed: "true", confirm: "false" },
@@ -202,6 +226,14 @@ let store = null;
 async function loadData() {
   if (store) return store;
 
+  // Cache sessionStorage — evita re-fetch nella stessa sessione
+  const cached = getCachedStore();
+  if (cached) {
+    store = cached;
+    console.log('[data] Dati caricati dalla cache sessionStorage');
+    return store;
+  }
+
   const tabs = ['Settings', 'Hours', 'Services', 'Team', 'Reviews', 'Gallery'];
   const results = await Promise.all(tabs.map(tab => fetchTab(tab)));
   const [settingsRaw, hours, services, team, reviews, galleryRaw] = results;
@@ -240,6 +272,9 @@ async function loadData() {
     reviews: reviews || FALLBACK.reviews,
     gallery: galleryList || FALLBACK.gallery,
   };
+
+  // Salva in cache per navigazioni successive nella stessa sessione
+  setCacheStore(store);
 
   console.log('[data] Dati caricati:', store);
   return store;
